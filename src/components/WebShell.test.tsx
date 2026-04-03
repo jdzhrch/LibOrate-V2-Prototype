@@ -82,6 +82,8 @@ describe('WebShell', () => {
     expect(screen.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
     expect(screen.getByText('Meeting pressure map')).toBeInTheDocument()
     expect(screen.getByText('Support timeline')).toBeInTheDocument()
+    expect(screen.getByText('Daily support moments')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Support timeline bar chart' })).toBeInTheDocument()
     expect(screen.getByText('What stands out')).toBeInTheDocument()
     expect(screen.getByText('Highest-support meeting')).toBeInTheDocument()
     expect(screen.queryByText('Most frequent emotion')).not.toBeInTheDocument()

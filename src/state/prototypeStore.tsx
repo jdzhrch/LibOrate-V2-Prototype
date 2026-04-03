@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { buildDefaultEmotionLibrary } from '../data/emotions'
 import { meetings } from '../data/meetings'
+import { seedCheckIns, seedLetters } from '../data/seedHistory'
 import { buildCheckInRecord } from './helpers'
 import type { LetterModeKey } from '../types'
 import type {
@@ -20,22 +21,13 @@ import type {
 } from '../types'
 
 const STORAGE_KEY = 'liborate-prototype-state'
+const RUNAWAY_TODAY_CHECKIN_THRESHOLD = 50
 
 const defaultState: PersistedPrototypeState = {
   selectedMeetingId: meetings[0].id,
-  checkIns: [],
+  checkIns: seedCheckIns,
   emotionLibrary: buildDefaultEmotionLibrary(),
-  letters: [
-    {
-      id: 'starter-letter',
-      title: 'Before I speak',
-      body:
-        'You do not have to rush to make other people comfortable. Take the pause you need and let the idea arrive in your own rhythm.',
-      mode: 'before-next-meeting',
-      linkedMeetingId: null,
-      createdAt: new Date('2026-04-01T12:00:00.000Z').toISOString(),
-    },
-  ],
+  letters: seedLetters,
 }
 
 type PrototypeContextValue = {
@@ -59,6 +51,53 @@ type PrototypeContextValue = {
 
 const PrototypeContext = createContext<PrototypeContextValue | null>(null)
 
+function mergeSeedItems<T extends { id: string; createdAt: string }>(seed: T[], stored?: T[]) {
+  const next = new Map<string, T>()
+
+  for (const item of seed) {
+    next.set(item.id, item)
+  }
+
+  for (const item of stored ?? []) {
+    next.set(item.id, item)
+  }
+
+  return [...next.values()].sort((left, right) =>
+    new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime(),
+  )
+}
+
+function isSameLocalDay(left: Date, right: Date) {
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  )
+}
+
+function sanitizeStoredCheckIns(checkIns: CheckInRecord[] | undefined, now: Date) {
+  const storedCheckIns = checkIns ?? []
+  const runawayTodayCount = storedCheckIns.filter((record) => {
+    if (record.id.startsWith('seed-')) {
+      return false
+    }
+
+    return isSameLocalDay(new Date(record.createdAt), now)
+  }).length
+
+  if (runawayTodayCount < RUNAWAY_TODAY_CHECKIN_THRESHOLD) {
+    return storedCheckIns
+  }
+
+  return storedCheckIns.filter((record) => {
+    if (record.id.startsWith('seed-')) {
+      return true
+    }
+
+    return !isSameLocalDay(new Date(record.createdAt), now)
+  })
+}
+
 function loadPersistedState(): PersistedPrototypeState {
   if (typeof window === 'undefined') {
     return defaultState
@@ -71,7 +110,19 @@ function loadPersistedState(): PersistedPrototypeState {
       return defaultState
     }
 
-    return { ...defaultState, ...JSON.parse(raw) }
+    const parsed = JSON.parse(raw) as PersistedPrototypeState
+    const now = new Date()
+    const sanitizedStoredCheckIns = sanitizeStoredCheckIns(parsed.checkIns, now)
+
+    return {
+      ...defaultState,
+      ...parsed,
+      checkIns: mergeSeedItems(defaultState.checkIns, sanitizedStoredCheckIns),
+      letters: mergeSeedItems(defaultState.letters, parsed.letters),
+      emotionLibrary: parsed.emotionLibrary?.length
+        ? parsed.emotionLibrary
+        : defaultState.emotionLibrary,
+    }
   } catch {
     return defaultState
   }

@@ -92,7 +92,7 @@ describe('App workspace sync', () => {
 
     expect(stuckButton).toHaveAttribute('aria-pressed', 'true')
     expect(resetButton).toHaveAttribute('data-meeting-count', '3')
-    expect(stuckButton).toHaveAttribute('data-meeting-count', '2')
+    expect(stuckButton).toHaveAttribute('data-meeting-count', '3')
     expect(container.querySelector('.zoom-card-common-humanity')).toHaveAttribute(
       'data-state',
       'active',

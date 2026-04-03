@@ -20,6 +20,8 @@ export function CheckInOverview({
   const emotionSnapshot = buildEmotionSnapshot(checkIns, emotionLibrary)
   const meetingSnapshot = buildMeetingSnapshot(checkIns)
   const timelinePoints = buildTimelinePoints(checkIns)
+  const timelineMax = timelinePoints.reduce((largest, point) => Math.max(largest, point.count), 0)
+  const timelineMidpoint = timelineMax <= 1 ? 1 : Math.ceil(timelineMax / 2)
   const insights = buildCheckInInsights(checkIns, viewMode, emotionLibrary)
   const snapshotCountLabel =
     viewMode === 'meeting'
@@ -76,14 +78,31 @@ export function CheckInOverview({
             <h3>Support timeline</h3>
             <span>{timelinePoints.length} days</span>
           </div>
-          <div className="timeline-strip" role="img" aria-label="Support timeline">
-            {timelinePoints.map((point) => (
-              <div className="timeline-column" key={point.label}>
-                <span className="timeline-bar" style={{ height: `${point.heightPercent}%` }} />
-                <strong>{point.count}</strong>
-                <span>{point.label}</span>
+          <p className="timeline-caption">Daily support moments</p>
+          <div className="timeline-chart" role="img" aria-label="Support timeline bar chart">
+            <div aria-hidden="true" className="timeline-scale">
+              <span>{timelineMax}</span>
+              <span>{timelineMidpoint}</span>
+              <span>0</span>
+            </div>
+            <div className="timeline-plot">
+              <div aria-hidden="true" className="timeline-gridlines">
+                <span />
+                <span />
+                <span />
               </div>
-            ))}
+              <div className="timeline-strip">
+                {timelinePoints.map((point) => (
+                  <div className="timeline-column" key={point.label}>
+                    <strong className="timeline-value">{point.count}</strong>
+                    <div className="timeline-bar-slot" aria-hidden="true">
+                      <span className="timeline-bar" style={{ height: `${point.heightPercent}%` }} />
+                    </div>
+                    <span className="timeline-label">{point.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </div>

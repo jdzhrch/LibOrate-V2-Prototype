@@ -1,6 +1,27 @@
+import { render, screen } from '@testing-library/react'
+import { afterEach, vi } from 'vitest'
 import { meetings } from '../data/meetings'
 import { sharedCommonHumanity } from '../data/emotions'
 import { buildCheckInRecord, filterCheckInsByDateRange } from './helpers'
+import { PrototypeProvider, usePrototypeStore } from './prototypeStore'
+
+const STORAGE_KEY = 'liborate-prototype-state'
+
+afterEach(() => {
+  vi.useRealTimers()
+  window.localStorage.clear()
+})
+
+function StoreProbe() {
+  const { checkIns, letters } = usePrototypeStore()
+
+  return (
+    <div>
+      <span data-testid="checkins-count">{checkIns.length}</span>
+      <span data-testid="letters-count">{letters.length}</span>
+    </div>
+  )
+}
 
 describe('buildCheckInRecord', () => {
   it('binds the created record to the active meeting and rotates phrase selection', () => {
@@ -113,5 +134,128 @@ describe('filterCheckInsByDateRange', () => {
 
     expect(filtered).toHaveLength(1)
     expect(filtered[0]?.meetingId).toBe(meetings[0].id)
+  })
+})
+
+describe('PrototypeProvider seed data', () => {
+  it('loads historical mock records by default', () => {
+    window.localStorage.removeItem(STORAGE_KEY)
+
+    render(
+      <PrototypeProvider>
+        <StoreProbe />
+      </PrototypeProvider>,
+    )
+
+    expect(screen.getByTestId('checkins-count')).toHaveTextContent('10')
+    expect(screen.getByTestId('letters-count')).toHaveTextContent('4')
+  })
+
+  it('falls back to the new seed data when persisted arrays are empty', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        selectedMeetingId: meetings[0].id,
+        checkIns: [],
+        letters: [],
+      }),
+    )
+
+    render(
+      <PrototypeProvider>
+        <StoreProbe />
+      </PrototypeProvider>,
+    )
+
+    expect(screen.getByTestId('checkins-count')).toHaveTextContent('10')
+    expect(screen.getByTestId('letters-count')).toHaveTextContent('4')
+  })
+
+  it('merges existing local data with the seeded history', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        selectedMeetingId: meetings[0].id,
+        checkIns: [
+          buildCheckInRecord({
+            emotionKey: 'steadying',
+            meeting: meetings[0],
+            existingCheckIns: [],
+            emotionLibrary: [
+              {
+                key: 'steadying',
+                chipLabel: 'I am finding my footing',
+                supportTitle: 'Let the ease count',
+                commonHumanity: sharedCommonHumanity,
+                kindnessPhrases: ['I can let this small bit of ease matter.'],
+                isArchived: false,
+              },
+            ],
+            now: new Date('2026-04-03T10:00:00.000Z'),
+          }),
+        ],
+        letters: [
+          {
+            id: 'local-letter',
+            title: 'A newer note',
+            body: 'I can take the first sentence slowly.',
+            mode: 'before-next-meeting',
+            linkedMeetingId: meetings[0].id,
+            createdAt: '2026-04-03T09:00:00.000Z',
+          },
+        ],
+      }),
+    )
+
+    render(
+      <PrototypeProvider>
+        <StoreProbe />
+      </PrototypeProvider>,
+    )
+
+    expect(screen.getByTestId('checkins-count')).toHaveTextContent('11')
+    expect(screen.getByTestId('letters-count')).toHaveTextContent('5')
+  })
+
+  it('drops runaway local click data from today while keeping the seeded history', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-04-02T16:00:00.000Z'))
+
+    const repeatedTodayRecords = Array.from({ length: 101 }, (_, index) =>
+      buildCheckInRecord({
+        emotionKey: 'nervous',
+        meeting: meetings[0],
+        existingCheckIns: [],
+        emotionLibrary: [
+          {
+            key: 'nervous',
+            chipLabel: 'I feel nervous',
+            supportTitle: 'A steadier way in',
+            commonHumanity: sharedCommonHumanity,
+            kindnessPhrases: ['I can begin at the pace my body can manage.'],
+            isArchived: false,
+          },
+        ],
+        now: new Date(`2026-04-02T15:${String(index % 60).padStart(2, '0')}:00.000Z`),
+      }),
+    )
+
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        selectedMeetingId: meetings[0].id,
+        checkIns: repeatedTodayRecords,
+        letters: [],
+      }),
+    )
+
+    render(
+      <PrototypeProvider>
+        <StoreProbe />
+      </PrototypeProvider>,
+    )
+
+    expect(screen.getByTestId('checkins-count')).toHaveTextContent('10')
+    expect(screen.getByTestId('letters-count')).toHaveTextContent('4')
   })
 })

@@ -27,5 +27,9 @@ describe('GitHub Pages deployment setup', () => {
 
     expect(workflowSource).toContain('actions/deploy-pages')
     expect(workflowSource).toContain('pages')
+    expect(workflowSource).toContain('actions/checkout@v5')
+    expect(workflowSource).toContain('actions/setup-node@v6')
+    expect(workflowSource).not.toContain('actions/checkout@v4')
+    expect(workflowSource).not.toContain('actions/setup-node@v4')
   })
 })

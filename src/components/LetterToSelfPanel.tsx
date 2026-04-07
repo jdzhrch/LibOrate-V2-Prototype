@@ -69,65 +69,8 @@ export function LetterToSelfPanel() {
             ))}
           </div>
 
-          <div className="letter-workbench-grid">
-            <section className="letter-form-card">
-              <div className="letter-form-grid">
-                <div>
-                  <label className="field-label" htmlFor="letter-title">
-                    Letter title
-                  </label>
-                  <input
-                    className="field-input"
-                    id="letter-title"
-                    onChange={(event) => setTitle(event.target.value)}
-                    placeholder="What do you want to remember?"
-                    value={title}
-                  />
-                </div>
-
-                <div>
-                  <label className="field-label" htmlFor="letter-meeting-link">
-                    Meeting link
-                  </label>
-                  <select
-                    aria-label="Meeting link"
-                    className="field-input"
-                    id="letter-meeting-link"
-                    onChange={(event) => setLinkedMeetingId(event.target.value)}
-                    value={linkedMeetingId}
-                  >
-                    <option value="">No linked meeting</option>
-                    {meetings.map((meeting) => (
-                      <option key={meeting.id} value={meeting.id}>
-                        {meeting.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="field-label" htmlFor="letter-to-self">
-                  Your letter
-                </label>
-                <textarea
-                  className="letter-input"
-                  id="letter-to-self"
-                  onChange={(event) => setBody(event.target.value)}
-                  placeholder="Write to yourself the way you would want support to sound before, during, or after the meeting."
-                  rows={10}
-                  value={body}
-                />
-              </div>
-
-              <div className="letter-footer">
-                <button className="primary-pill" onClick={handleSave} type="button">
-                  Save letter
-                </button>
-              </div>
-            </section>
-
-            <aside className="letter-guide-card">
+          <section className="letter-form-card">
+            <div className="letter-prompt-block">
               <div className="letter-guide-header">
                 <div className="meeting-summary-pill">{selectedMode.title}</div>
                 <p className="supporting-copy">{selectedMode.description}</p>
@@ -140,8 +83,63 @@ export function LetterToSelfPanel() {
                   </div>
                 ))}
               </div>
-            </aside>
-          </div>
+            </div>
+
+            <div className="letter-form-grid">
+              <div>
+                <label className="field-label" htmlFor="letter-title">
+                  Letter title
+                </label>
+                <input
+                  className="field-input"
+                  id="letter-title"
+                  onChange={(event) => setTitle(event.target.value)}
+                  placeholder="What do you want to remember?"
+                  value={title}
+                />
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="letter-meeting-link">
+                  Meeting link
+                </label>
+                <select
+                  aria-label="Meeting link"
+                  className="field-input"
+                  id="letter-meeting-link"
+                  onChange={(event) => setLinkedMeetingId(event.target.value)}
+                  value={linkedMeetingId}
+                >
+                  <option value="">No linked meeting</option>
+                  {meetings.map((meeting) => (
+                    <option key={meeting.id} value={meeting.id}>
+                      {meeting.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="letter-to-self">
+                Your letter
+              </label>
+              <textarea
+                className="letter-input"
+                id="letter-to-self"
+                onChange={(event) => setBody(event.target.value)}
+                placeholder="Write to yourself the way you would want support to sound before, during, or after the meeting."
+                rows={10}
+                value={body}
+              />
+            </div>
+
+            <div className="letter-footer">
+              <button className="primary-pill" onClick={handleSave} type="button">
+                Save letter
+              </button>
+            </div>
+          </section>
         </section>
 
         <aside className="letter-history-rail">

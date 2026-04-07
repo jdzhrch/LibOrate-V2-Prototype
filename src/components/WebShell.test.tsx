@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, vi } from 'vitest'
 import { PrototypeProvider } from '../state/prototypeStore'
 import { WebShell } from './WebShell'
@@ -116,7 +116,7 @@ describe('WebShell', () => {
   it('shows diary-style letters on a separate top-level page and allows optional meeting linking', async () => {
     const user = userEvent.setup()
 
-    render(
+    const { container } = render(
       <PrototypeProvider
         initialState={{
           selectedMeetingId: 'design-review',
@@ -150,9 +150,21 @@ describe('WebShell', () => {
     expect(screen.getByLabelText('Meeting link')).toBeInTheDocument()
     expect(screen.getByText('Choose a reflection frame')).toBeInTheDocument()
 
+    const letterFormCard = container.querySelector('.letter-form-card')
+
+    if (!letterFormCard) {
+      throw new Error('Expected letter form card to exist')
+    }
+
+    expect(within(letterFormCard as HTMLElement).getByText('What are you walking into?')).toBeInTheDocument()
+    expect(container.querySelector('.letter-guide-card')).toBeNull()
+
     await user.click(screen.getByRole('button', { name: 'When shame gets loud' }))
 
     expect(screen.getByText('What are you criticizing yourself for right now?')).toBeInTheDocument()
+    expect(
+      within(letterFormCard as HTMLElement).getByText('What are you criticizing yourself for right now?'),
+    ).toBeInTheDocument()
 
     await user.type(screen.getByLabelText('Letter title'), 'New note')
     await user.selectOptions(screen.getByLabelText('Meeting link'), 'client-kickoff')

@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { buildDefaultEmotionLibrary } from '../data/emotions'
+import { buildDefaultEmotionLibrary, getEmotionColorToken } from '../data/emotions'
 import { meetings } from '../data/meetings'
 import { seedCheckIns, seedLetters } from '../data/seedHistory'
 import { buildCheckInRecord } from './helpers'
@@ -155,6 +155,7 @@ function normalizeEmotionLibrary(
   legacyPhraseLibrary?: PhraseLibraryInput,
 ) {
   const seenKeys = new Set<string>()
+  const usedColorTokens: NonNullable<EmotionConfig['colorToken']>[] = []
 
   return input.reduce<EmotionConfig[]>((library, emotion, index) => {
     const chipLabel = emotion.chipLabel.trim() || `Emotion ${index + 1}`
@@ -166,6 +167,9 @@ function normalizeEmotionLibrary(
 
     seenKeys.add(key)
     const legacyPhrases = legacyPhraseLibrary?.[key]
+    const colorToken = getEmotionColorToken(key, emotion.colorToken, usedColorTokens)
+
+    usedColorTokens.push(colorToken)
 
     library.push({
       key,
@@ -177,6 +181,7 @@ function normalizeEmotionLibrary(
         chipLabel,
       ),
       isArchived: Boolean(emotion.isArchived),
+      colorToken,
     })
 
     return library

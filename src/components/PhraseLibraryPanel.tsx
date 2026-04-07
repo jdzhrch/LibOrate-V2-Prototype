@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { sharedCommonHumanity } from '../data/emotions'
+import { getEmotionColorToken, sharedCommonHumanity } from '../data/emotions'
 import { usePrototypeStore } from '../state/prototypeStore'
 import type { EmotionConfig } from '../types'
 
@@ -71,18 +71,29 @@ function buildEmotionDraft({
   chipLabel,
   commonHumanity,
   kindnessPhrasesText,
-}: NewEmotionDraft, existingKeys: string[]) {
+}: NewEmotionDraft, existingEmotions: EmotionConfig[]) {
   const trimmedLabel = chipLabel.trim()
   const phrases = parsePhrases(kindnessPhrasesText, trimmedLabel)
+  const key = buildEmotionKey(
+    trimmedLabel,
+    existingEmotions.map((emotion) => emotion.key),
+  )
 
   return {
-    key: buildEmotionKey(trimmedLabel, existingKeys),
+    key,
     chipLabel: trimmedLabel,
     supportTitle: trimmedLabel,
     commonHumanity: commonHumanity.trim() || buildFallbackCommonHumanity(),
     kindnessPhrases: phrases,
     kindnessPhrasesText: phrases.join('\n'),
     isArchived: false,
+    colorToken: getEmotionColorToken(
+      key,
+      undefined,
+      existingEmotions
+        .map((emotion) => emotion.colorToken)
+        .filter((token): token is NonNullable<EmotionConfig['colorToken']> => Boolean(token)),
+    ),
   }
 }
 
@@ -101,6 +112,13 @@ export function PhraseLibraryPanel() {
 
   const activeDrafts = draftEmotions.filter((emotion) => !emotion.isArchived)
   const archivedDrafts = draftEmotions.filter((emotion) => emotion.isArchived)
+  const newEmotionColorToken = getEmotionColorToken(
+    'custom-emotion',
+    undefined,
+    draftEmotions
+      .map((emotion) => emotion.colorToken)
+      .filter((token): token is NonNullable<EmotionConfig['colorToken']> => Boolean(token)),
+  )
 
   function updateEmotion(key: string, patch: Partial<EmotionDraft>) {
     setDraftEmotions((current) =>
@@ -117,7 +135,7 @@ export function PhraseLibraryPanel() {
 
     setDraftEmotions((current) => [
       ...current,
-      buildEmotionDraft(newEmotion, current.map((emotion) => emotion.key)),
+      buildEmotionDraft(newEmotion, current),
     ])
     setNewEmotion({
       chipLabel: '',
@@ -135,6 +153,7 @@ export function PhraseLibraryPanel() {
         commonHumanity: emotion.commonHumanity.trim() || buildFallbackCommonHumanity(),
         kindnessPhrases: parsePhrases(emotion.kindnessPhrasesText, emotion.chipLabel),
         isArchived: emotion.isArchived,
+        colorToken: emotion.colorToken,
       })),
     )
   }
@@ -161,7 +180,10 @@ export function PhraseLibraryPanel() {
           <div className="phrase-section-header">
             <h3>Add emotion</h3>
           </div>
-          <div className="break-preview-chip">
+          <p className="supporting-copy">
+            New emotions pick up the next color in the LibOrate palette automatically.
+          </p>
+          <div className="break-preview-chip" data-color={newEmotionColorToken}>
             <span>{newEmotion.chipLabel.trim() || 'New emotion'}</span>
           </div>
           <div className="phrase-editor-grid">
@@ -227,7 +249,7 @@ export function PhraseLibraryPanel() {
             <h3>Live in Zoom</h3>
             <div className="break-chip-row" aria-hidden="true">
               {activeDrafts.map((emotion) => (
-                <span className="break-mini-chip" data-emotion={emotion.key} key={emotion.key}>
+                <span className="break-mini-chip" data-color={emotion.colorToken} key={emotion.key}>
                   {emotion.chipLabel}
                 </span>
               ))}
@@ -235,10 +257,10 @@ export function PhraseLibraryPanel() {
           </div>
           <div className="phrase-library-grid">
             {activeDrafts.map((emotion) => (
-              <article className="phrase-editor-card" data-emotion={emotion.key} key={emotion.key}>
+              <article className="phrase-editor-card" data-color={emotion.colorToken} key={emotion.key}>
                 <div className="phrase-card-topline">
                   <div className="phrase-card-identity">
-                    <h3 className="break-preview-chip" data-emotion={emotion.key}>
+                    <h3 className="break-preview-chip" data-color={emotion.colorToken}>
                       {emotion.chipLabel}
                     </h3>
                   </div>
@@ -315,12 +337,12 @@ export function PhraseLibraryPanel() {
                 {archivedDrafts.map((emotion) => (
                   <article
                     className="phrase-editor-card phrase-editor-card-archived"
-                    data-emotion={emotion.key}
+                    data-color={emotion.colorToken}
                     key={emotion.key}
                   >
                     <div className="phrase-card-topline">
                       <div className="phrase-card-identity">
-                        <h3 className="break-preview-chip" data-emotion={emotion.key}>
+                        <h3 className="break-preview-chip" data-color={emotion.colorToken}>
                           {emotion.chipLabel}
                         </h3>
                       </div>

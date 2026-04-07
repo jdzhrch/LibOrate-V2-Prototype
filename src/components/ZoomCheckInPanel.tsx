@@ -27,6 +27,8 @@ export function ZoomCheckInPanel() {
   const activeRecord = lastRecord?.meetingId === currentMeeting.id ? lastRecord : null
   const activeSelectedEmotionKey =
     activeRecord && selectedEmotionKey ? selectedEmotionKey : null
+  const activeEmotion =
+    activeEmotions.find((emotion) => emotion.key === activeSelectedEmotionKey) ?? null
 
   function handleCheckIn(emotionKey: string) {
     const record = addCheckIn(emotionKey)
@@ -38,24 +40,16 @@ export function ZoomCheckInPanel() {
     <div className="zoom-checkin-stack">
       <section
         aria-label="Emotions and thoughts"
-        data-emotion={activeSelectedEmotionKey ?? undefined}
+        data-color={activeEmotion?.colorToken}
         className="surface-card zoom-checkin-card zoom-card-emotions"
       >
-        <div className="zoom-card-topline" aria-hidden="true">
-          <div className="zoom-card-marker zoom-card-marker-emotions" />
-          <div className="zoom-card-orbit">
-            <span />
-            <span />
-            <span />
-          </div>
-        </div>
         <div className="zoom-emotion-field">
           <div className="chip-grid" role="list" aria-label="Emotional check-in options">
             {activeEmotions.map((emotion) => (
               <button
                 key={emotion.key}
                 aria-pressed={activeSelectedEmotionKey === emotion.key}
-                data-emotion={emotion.key}
+                data-color={emotion.colorToken}
                 data-meeting-count={meetingEmotionCounts.get(emotion.key) ?? undefined}
                 className={
                   activeSelectedEmotionKey === emotion.key
@@ -80,7 +74,7 @@ export function ZoomCheckInPanel() {
       <section
         aria-label="Common humanity"
         data-state={activeRecord ? 'active' : 'idle'}
-        data-emotion={activeSelectedEmotionKey ?? undefined}
+        data-color={activeEmotion?.colorToken}
         className={
           activeRecord
             ? 'surface-card zoom-checkin-card zoom-card-common-humanity zoom-checkin-card-live'
@@ -88,7 +82,6 @@ export function ZoomCheckInPanel() {
         }
       >
         <div className="zoom-note-shell">
-          <div className="zoom-note-stripe" aria-hidden="true" />
           <p className="zoom-card-body">{activeRecord?.commonHumanity ?? sharedCommonHumanity}</p>
         </div>
       </section>
@@ -96,7 +89,7 @@ export function ZoomCheckInPanel() {
       <section
         aria-label="Self-kindness"
         data-state={activeRecord ? 'active' : 'idle'}
-        data-emotion={activeSelectedEmotionKey ?? undefined}
+        data-color={activeEmotion?.colorToken}
         className={
           activeRecord
             ? 'surface-card zoom-checkin-card zoom-card-self-kindness zoom-checkin-card-live'

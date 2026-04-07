@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getEmotionSummaryLabel } from '../data/emotions'
 import { countRecordsByEmotion } from '../state/helpers'
 import type { CheckInRecord, EmotionConfig, MeetingInfo } from '../types'
 import { formatShortTimestamp } from '../utils/formatting'
@@ -13,6 +14,7 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
   const [expanded, setExpanded] = useState(false)
   const latestRecord = records[0]
   const emotionTotals = countRecordsByEmotion(records, emotionLibrary)
+  const emotionMap = new Map(emotionLibrary.map((emotion) => [emotion.key, emotion]))
 
   return (
     <article className="meeting-group-card">
@@ -49,9 +51,10 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
 
       <div className="emotion-token-row">
         {emotionTotals.map((item) => (
-          <div className="emotion-token" data-emotion={item.emotion.key} key={item.emotion.key}>
+          <div className="emotion-token" data-color={item.emotion.colorToken} key={item.emotion.key}>
             <span className="emotion-token-dot" />
-            <span>{item.count}</span>
+            <span className="emotion-token-label">{getEmotionSummaryLabel(item.emotion.chipLabel)}</span>
+            <span className="emotion-token-count">{item.count}</span>
           </div>
         ))}
       </div>
@@ -63,7 +66,10 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
           ) : (
             records.map((record) => (
               <article className="record-card" key={record.id}>
-                <div className="record-chip" data-emotion={record.emotionKey}>
+                <div
+                  className="record-chip"
+                  data-color={emotionMap.get(record.emotionKey)?.colorToken}
+                >
                   <span className="emotion-token-dot" />
                   <strong>{record.emotionLabel}</strong>
                 </div>

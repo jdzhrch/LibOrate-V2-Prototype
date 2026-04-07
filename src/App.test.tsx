@@ -84,6 +84,8 @@ describe('App workspace sync', () => {
 
     const resetButton = screen.getByRole('button', { name: 'I need a reset' })
     const stuckButton = screen.getByRole('button', { name: 'I feel stuck' })
+    expect(resetButton).toHaveAttribute('data-color', 'teal')
+    expect(stuckButton).toHaveAttribute('data-color', 'indigo')
     await user.click(resetButton)
     await user.click(resetButton)
     await user.click(stuckButton)

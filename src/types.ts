@@ -1,4 +1,12 @@
 export type EmotionKey = string
+export type EmotionColorToken =
+  | 'sky'
+  | 'indigo'
+  | 'apricot'
+  | 'rose'
+  | 'sage'
+  | 'teal'
+  | 'amber'
 
 export type PhraseLibrary = Record<EmotionKey, string[]>
 export type PhraseLibraryInput = Partial<Record<EmotionKey, string[]>>
@@ -20,6 +28,7 @@ export type EmotionConfig = {
   commonHumanity: string
   kindnessPhrases: string[]
   isArchived: boolean
+  colorToken?: EmotionColorToken
 }
 
 export type MeetingInfo = {

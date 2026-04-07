@@ -57,7 +57,7 @@ export function CheckInOverview({
               : emotionSnapshot.map((row) => (
                   <div
                     className="emotion-snapshot-row"
-                    data-emotion={row.emotion.key}
+                    data-color={row.emotion.colorToken}
                     key={row.emotion.key}
                   >
                     <div className="emotion-snapshot-copy">

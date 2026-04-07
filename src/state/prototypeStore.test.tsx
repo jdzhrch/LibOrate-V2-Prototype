@@ -60,7 +60,7 @@ describe('buildCheckInRecord', () => {
     })
 
     expect(first.meetingId).toBe(meetings[1].id)
-    expect(first.meetingTitle).toBe('Client kickoff')
+    expect(first.meetingTitle).toBe('Client Kickoff')
     expect(first.kindnessPhrase).toBe('First custom phrase')
     expect(first.commonHumanity).toBe(sharedCommonHumanity)
     expect(second.kindnessPhrase).toBe('Second custom phrase')

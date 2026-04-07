@@ -43,7 +43,7 @@ export function EmotionGroup({ emotion, records }: EmotionGroupProps) {
           ) : (
             records.map((record) => (
               <article className="record-card" key={record.id}>
-                <div className="record-chip" data-emotion={emotion.key}>
+                <div className="record-chip" data-color={emotion.colorToken}>
                   <span className="emotion-token-dot" />
                   <strong>{record.meetingTitle}</strong>
                 </div>

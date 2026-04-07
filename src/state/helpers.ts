@@ -1,4 +1,8 @@
-import { getEmotionByKey, sharedCommonHumanity } from '../data/emotions'
+import {
+  getEmotionByKey,
+  getEmotionColorToken,
+  sharedCommonHumanity,
+} from '../data/emotions'
 import { meetings } from '../data/meetings'
 import type {
   CheckInDateFilter,
@@ -18,6 +22,7 @@ function buildFallbackEmotion(record: CheckInRecord): EmotionConfig {
     commonHumanity: record.commonHumanity,
     kindnessPhrases: [record.kindnessPhrase],
     isArchived: true,
+    colorToken: getEmotionColorToken(record.emotionKey),
   }
 }
 

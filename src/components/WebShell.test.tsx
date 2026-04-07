@@ -31,7 +31,7 @@ describe('WebShell', () => {
             {
               id: 'record-recent',
               meetingId: 'design-review',
-              meetingTitle: 'Tuesday design review',
+              meetingTitle: 'Tuesday Design Review',
               meetingStartTime: 'Today · 3:30 PM',
               emotionKey: 'stuck',
               emotionLabel: 'I feel stuck',
@@ -44,7 +44,7 @@ describe('WebShell', () => {
             {
               id: 'record-recent-2',
               meetingId: 'practice-circle',
-              meetingTitle: 'Practice circle',
+              meetingTitle: 'Practice Circle',
               meetingStartTime: 'Tomorrow · 11:00 AM',
               emotionKey: 'stuck',
               emotionLabel: 'I feel stuck',
@@ -56,7 +56,7 @@ describe('WebShell', () => {
             {
               id: 'record-old',
               meetingId: 'client-kickoff',
-              meetingTitle: 'Client kickoff',
+              meetingTitle: 'Client Kickoff',
               meetingStartTime: 'Friday · 9:00 AM',
               emotionKey: 'rushing',
               emotionLabel: 'I want to rush',
@@ -87,17 +87,19 @@ describe('WebShell', () => {
     expect(screen.getByText('What stands out')).toBeInTheDocument()
     expect(screen.getByText('Highest-support meeting')).toBeInTheDocument()
     expect(screen.queryByText('Most frequent emotion')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Expand Tuesday design review' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Expand Tuesday Design Review' })).toBeInTheDocument()
     expect(screen.queryByText('11:32 AM')).not.toBeInTheDocument()
-    expect(screen.getAllByText('Tuesday design review').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Client kickoff').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Client Kickoff').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Stuck').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Rush').length).toBeGreaterThan(0)
     expect(screen.queryByText('with history')).not.toBeInTheDocument()
     expect(screen.queryByText('Before the review')).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: '7 days' }))
 
-    expect(screen.getAllByText('Tuesday design review').length).toBeGreaterThan(0)
-    expect(screen.queryByText('Client kickoff')).not.toBeInTheDocument()
+    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
+    expect(screen.queryByText('Client Kickoff')).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('tab', { name: 'Emotions' }))
 
@@ -105,10 +107,10 @@ describe('WebShell', () => {
     expect(screen.getByText('Most repeated state')).toBeInTheDocument()
     expect(screen.queryByText('Highest-support meeting')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Expand I feel stuck' })).toBeInTheDocument()
-    expect(screen.queryByText('Practice circle')).not.toBeInTheDocument()
+    expect(screen.queryByText('Practice Circle')).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Expand I feel stuck' }))
     expect(screen.getAllByText('I feel stuck').length).toBeGreaterThan(1)
-    expect(screen.getAllByText('Tuesday design review').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
   })
 
   it('shows diary-style letters on a separate top-level page and allows optional meeting linking', async () => {
@@ -158,7 +160,7 @@ describe('WebShell', () => {
     await user.click(screen.getByRole('button', { name: 'Save letter' }))
 
     expect(screen.getByText('New note')).toBeInTheDocument()
-    expect(screen.getAllByText('Client kickoff').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Client Kickoff').length).toBeGreaterThan(0)
     expect(screen.getAllByText('When shame gets loud').length).toBeGreaterThan(0)
   })
 })

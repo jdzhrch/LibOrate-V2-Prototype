@@ -550,6 +550,9 @@ a {
   border-radius: 20px;
   background: color-mix(in srgb, var(--emotion-soft) 86%, white);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  display: grid;
+  justify-items: center;
+  text-align: center;
 }
 
 .zoom-kindness-stage {
@@ -565,6 +568,8 @@ a {
   color: #5b6982;
   font-size: 0.95rem;
   max-width: 34ch;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .zoom-card-self-kindness .zoom-card-body {
@@ -897,6 +902,7 @@ a {
   padding: 18px;
   display: grid;
   gap: 14px;
+  align-content: start;
   box-shadow: 0 18px 34px rgba(84, 96, 128, 0.08);
 }
 
@@ -1383,6 +1389,68 @@ a {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
+.letter-prompt-accordion {
+  padding: 0;
+}
+
+.letter-prompt-accordion[open] {
+  padding: 0 0 14px;
+}
+
+.letter-prompt-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  font-weight: 700;
+  color: var(--text);
+  user-select: none;
+}
+
+.letter-prompt-summary::-webkit-details-marker {
+  display: none;
+}
+
+.letter-prompt-summary-text {
+  flex: 1 1 auto;
+  margin: auto 0;
+  line-height: 1.45;
+  font-size: 0.96rem;
+}
+
+.letter-prompt-summary-icon {
+  position: relative;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: auto 0;
+}
+
+.letter-prompt-summary-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #7b869a;
+  border-bottom: 2px solid #7b869a;
+  transform: translate(-50%, -62%) rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.letter-prompt-accordion[open] .letter-prompt-summary-icon::before {
+  transform: translate(-50%, -38%) rotate(225deg);
+}
+
+.letter-prompt-accordion .prompt-row {
+  padding: 0 16px;
+}
+
 .letter-mode-card {
   border: 1px solid rgba(215, 223, 235, 0.94);
   border-radius: 22px;
@@ -1417,10 +1485,20 @@ a {
 
 .letter-mode-card-active {
   background:
-    radial-gradient(circle at top right, rgba(153, 176, 216, 0.17), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 246, 252, 0.98) 100%);
-  box-shadow: 0 18px 32px rgba(82, 96, 128, 0.1);
-  border-color: rgba(165, 180, 214, 0.94);
+    radial-gradient(circle at top right, rgba(153, 176, 216, 0.28), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(232, 240, 250, 0.98) 100%);
+  box-shadow: 0 20px 36px rgba(82, 96, 128, 0.16);
+  border-color: rgba(126, 150, 197, 0.96);
+  color: var(--text);
+}
+
+.letter-mode-card-active strong {
+  font-weight: 800;
+  color: var(--blue-dark, #2d3a5a);
+}
+
+.letter-mode-card-active span {
+  color: var(--text);
 }
 
 .prompt-row {
@@ -1514,13 +1592,31 @@ a {
 }
 
 .break-panel .panel-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.break-panel .panel-header > :first-child {
-  grid-column: 1 / -1;
+.break-stage {
+  --letter-stage-template: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+}
+
+.break-workbench {
+  display: grid;
+  gap: 18px;
+}
+
+.break-archive-rail {
+  display: grid;
+  gap: 16px;
+}
+
+.phrase-section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
 }
 
 .break-metric-row {
@@ -1627,6 +1723,40 @@ a {
   background: color-mix(in srgb, var(--emotion-soft) 100%, white);
   border: 1px solid color-mix(in srgb, var(--emotion-accent) 20%, white);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+
+.break-preview-stage {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 18px 16px 16px;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--emotion-soft) 60%, white);
+  border: 1px dashed color-mix(in srgb, var(--emotion-accent) 30%, white);
+  text-align: center;
+}
+
+.break-preview-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--emotion-accent) 70%, #4a5570);
+}
+
+.break-preview-chip-hero {
+  min-height: 56px;
+  padding: 0 22px;
+  font-size: 1.1rem;
+  border-width: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 10px 22px color-mix(in srgb, var(--emotion-accent) 18%, transparent);
+}
+
+.break-preview-note {
+  margin: 0;
+  max-width: 32ch;
 }
 
 .break-chip-row {

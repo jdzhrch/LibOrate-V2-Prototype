@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { afterEach, vi } from 'vitest'
 import { meetings } from '../data/meetings'
 import { sharedCommonHumanity } from '../data/emotions'
-import { buildCheckInRecord, filterCheckInsByDateRange } from './helpers'
+import { buildCheckInRecord, buildTimelinePoints, filterCheckInsByDateRange } from './helpers'
 import { PrototypeProvider, usePrototypeStore } from './prototypeStore'
 
 const STORAGE_KEY = 'liborate-prototype-state'
@@ -134,6 +134,35 @@ describe('filterCheckInsByDateRange', () => {
 
     expect(filtered).toHaveLength(1)
     expect(filtered[0]?.meetingId).toBe(meetings[0].id)
+  })
+})
+
+describe('buildTimelinePoints', () => {
+  it('switches to weekly aggregation when the range spans more than 14 distinct days', () => {
+    const records = Array.from({ length: 15 }, (_, index) =>
+      buildCheckInRecord({
+        emotionKey: 'stuck',
+        meeting: meetings[0],
+        existingCheckIns: [],
+        emotionLibrary: [
+          {
+            key: 'stuck',
+            chipLabel: 'I feel stuck',
+            supportTitle: 'Stay here',
+            commonHumanity: '',
+            kindnessPhrases: ['Stay here'],
+            isArchived: false,
+          },
+        ],
+        now: new Date(`2026-03-${String(index + 1).padStart(2, '0')}T15:30:00.000Z`),
+      }),
+    )
+
+    const points = buildTimelinePoints(records)
+
+    expect(points).toHaveLength(3)
+    expect(points.every((point) => point.granularity === 'week')).toBe(true)
+    expect(points.every((point) => point.label.startsWith('Wk of '))).toBe(true)
   })
 })
 

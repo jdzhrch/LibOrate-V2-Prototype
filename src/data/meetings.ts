@@ -4,7 +4,7 @@ export const meetings: MeetingInfo[] = [
   {
     id: 'design-review',
     title: 'Tuesday Design Review',
-    startTime: 'Today · 3:30 PM',
+    startTime: 'Tuesday · 3:30 PM',
     contextNote: 'A product review with five teammates. The first update is yours.',
   },
   {
@@ -16,7 +16,7 @@ export const meetings: MeetingInfo[] = [
   {
     id: 'practice-circle',
     title: 'Practice Circle',
-    startTime: 'Tomorrow · 11:00 AM',
+    startTime: 'Thursday · 11:00 AM',
     contextNote: 'A lower-pressure space where you can slow down without needing to perform.',
   },
 ]

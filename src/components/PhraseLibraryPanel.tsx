@@ -159,94 +159,109 @@ export function PhraseLibraryPanel() {
   }
 
   return (
-    <section className="surface-card web-panel-block break-panel">
+    <section className="surface-card letter-panel break-panel">
       <div className="panel-header">
         <div>
           <p className="section-label">In-meeting support</p>
           <h2>Self-Compassion Break</h2>
           <p className="supporting-copy">
-            Tune what appears in Zoom after each emotional check-in. Every emotion starts from the
-            same common humanity note, and each card can be rewritten.
+            Shape the support people see after each emotional check-in. Every emotion starts from
+            the same common humanity note, and each card can be rewritten.
           </p>
         </div>
-        <div className="break-metric-row">
-          <div className="metric-pill">{activeDrafts.length} live</div>
-          <div className="metric-pill">{archivedDrafts.length} archived</div>
-        </div>
+        <div className="metric-pill">{activeDrafts.length} available</div>
       </div>
 
-      <div className="break-layout">
-        <aside className="phrase-create-card break-create-card">
-          <div className="phrase-section-header">
-            <h3>Add emotion</h3>
-          </div>
-          <p className="supporting-copy">
-            New emotions pick up the next color in the LibOrate palette automatically.
-          </p>
-          <div className="break-preview-chip" data-color={newEmotionColorToken}>
-            <span>{newEmotion.chipLabel.trim() || 'New emotion'}</span>
-          </div>
-          <div className="phrase-editor-grid">
+      <div className="letters-stage break-stage">
+        <section className="letter-workbench break-workbench">
+          <div className="letter-workbench-header">
             <div>
-              <label className="field-label" htmlFor="new-emotion-label">
-                Label in Zoom
-              </label>
-              <input
-                className="field-input"
-                id="new-emotion-label"
-                onChange={(event) =>
-                  setNewEmotion((current) => ({
-                    ...current,
-                    chipLabel: event.target.value,
-                  }))
-                }
-                type="text"
-                value={newEmotion.chipLabel}
-              />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="new-common-humanity">
-                Common humanity
-              </label>
-              <textarea
-                className="letter-input phrase-humanity-textarea"
-                id="new-common-humanity"
-                onChange={(event) =>
-                  setNewEmotion((current) => ({
-                    ...current,
-                    commonHumanity: event.target.value,
-                  }))
-                }
-                value={newEmotion.commonHumanity}
-              />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="new-kindness-phrases">
-                Self-kindness
-              </label>
-              <textarea
-                className="letter-input phrase-textarea"
-                id="new-kindness-phrases"
-                onChange={(event) =>
-                  setNewEmotion((current) => ({
-                    ...current,
-                    kindnessPhrasesText: event.target.value,
-                  }))
-                }
-                value={newEmotion.kindnessPhrasesText}
-              />
+              <p className="supporting-copy">
+                Pick a label, a steady note of common humanity, and a few self-kindness phrases.
+              </p>
             </div>
           </div>
-          <div className="phrase-card-actions">
-            <button className="secondary-pill" onClick={handleAddEmotion} type="button">
-              Add emotion
-            </button>
-          </div>
-        </aside>
 
-        <div className="break-library-column">
-          <div className="phrase-section-header">
-            <h3>Live in Zoom</h3>
+          <article className="phrase-create-card letter-form-card">
+            <div className="phrase-card-topline">
+              <h3 className="phrase-section-title">Add emotion</h3>
+            </div>
+            <div className="break-preview-stage" data-color={newEmotionColorToken}>
+              <span className="break-preview-eyebrow">Preview</span>
+              <div
+                className="break-preview-chip break-preview-chip-hero"
+                data-color={newEmotionColorToken}
+              >
+                <span>{newEmotion.chipLabel.trim() || 'New label'}</span>
+              </div>
+              <p className="supporting-copy break-preview-note">
+                This is how it will appear during a meeting.
+              </p>
+            </div>
+
+            <div className="phrase-editor-grid">
+              <div>
+                <label className="field-label" htmlFor="new-emotion-label">
+                  Emotion label
+                </label>
+                <input
+                  className="field-input"
+                  id="new-emotion-label"
+                  onChange={(event) =>
+                    setNewEmotion((current) => ({
+                      ...current,
+                      chipLabel: event.target.value,
+                    }))
+                  }
+                  type="text"
+                  value={newEmotion.chipLabel}
+                />
+              </div>
+              <div>
+                <label className="field-label" htmlFor="new-common-humanity">
+                  Common humanity
+                </label>
+                <textarea
+                  className="letter-input phrase-humanity-textarea"
+                  id="new-common-humanity"
+                  onChange={(event) =>
+                    setNewEmotion((current) => ({
+                      ...current,
+                      commonHumanity: event.target.value,
+                    }))
+                  }
+                  value={newEmotion.commonHumanity}
+                />
+              </div>
+              <div>
+                <label className="field-label" htmlFor="new-kindness-phrases">
+                  Self-kindness
+                </label>
+                <textarea
+                  className="letter-input phrase-textarea"
+                  id="new-kindness-phrases"
+                  onChange={(event) =>
+                    setNewEmotion((current) => ({
+                      ...current,
+                      kindnessPhrasesText: event.target.value,
+                    }))
+                  }
+                  value={newEmotion.kindnessPhrasesText}
+                />
+              </div>
+            </div>
+            <div className="letter-footer">
+              <button className="primary-pill" onClick={handleAddEmotion} type="button">
+                Add emotion
+              </button>
+            </div>
+          </article>
+
+          <div className="letter-workbench-header">
+            <div>
+              <h3>Available in meetings</h3>
+              <p className="supporting-copy">These are the emotions people can choose during a meeting.</p>
+            </div>
             <div className="break-chip-row" aria-hidden="true">
               {activeDrafts.map((emotion) => (
                 <span className="break-mini-chip" data-color={emotion.colorToken} key={emotion.key}>
@@ -255,9 +270,14 @@ export function PhraseLibraryPanel() {
               ))}
             </div>
           </div>
+
           <div className="phrase-library-grid">
             {activeDrafts.map((emotion) => (
-              <article className="phrase-editor-card" data-color={emotion.colorToken} key={emotion.key}>
+              <article
+                className="phrase-editor-card letter-form-card"
+                data-color={emotion.colorToken}
+                key={emotion.key}
+              >
                 <div className="phrase-card-topline">
                   <div className="phrase-card-identity">
                     <h3 className="break-preview-chip" data-color={emotion.colorToken}>
@@ -270,14 +290,14 @@ export function PhraseLibraryPanel() {
                     onClick={() => updateEmotion(emotion.key, { isArchived: true })}
                     type="button"
                   >
-                    Archive
+                    Hide
                   </button>
                 </div>
 
                 <div className="phrase-editor-grid">
                   <div>
                     <label className="field-label" htmlFor={`${emotion.key}-label`}>
-                      Label in Zoom
+                      Emotion label
                     </label>
                     <input
                       className="field-input"
@@ -328,45 +348,53 @@ export function PhraseLibraryPanel() {
             ))}
           </div>
 
-          {archivedDrafts.length > 0 ? (
-            <>
-              <div className="phrase-section-header">
-                <h3>Archived emotions</h3>
-              </div>
-              <div className="phrase-library-grid phrase-library-grid-archived">
-                {archivedDrafts.map((emotion) => (
-                  <article
-                    className="phrase-editor-card phrase-editor-card-archived"
-                    data-color={emotion.colorToken}
-                    key={emotion.key}
-                  >
-                    <div className="phrase-card-topline">
-                      <div className="phrase-card-identity">
-                        <h3 className="break-preview-chip" data-color={emotion.colorToken}>
-                          {emotion.chipLabel}
-                        </h3>
-                      </div>
-                      <button
-                        className="secondary-pill"
-                        onClick={() => updateEmotion(emotion.key, { isArchived: false })}
-                        type="button"
-                      >
-                        Restore
-                      </button>
-                    </div>
-                    <p className="supporting-copy">{emotion.commonHumanity || sharedCommonHumanity}</p>
-                  </article>
-                ))}
-              </div>
-            </>
-          ) : null}
-        </div>
-      </div>
+          <div className="letter-footer">
+            <button className="primary-pill" onClick={handleSave} type="button">
+              Save changes
+            </button>
+          </div>
+        </section>
 
-      <div className="letter-footer">
-        <button className="primary-pill" onClick={handleSave} type="button">
-          Save library
-        </button>
+        <aside className="letter-history-rail break-archive-rail">
+          <div className="letter-history-header">
+            <div>
+              <h3>Hidden emotions</h3>
+              <p className="supporting-copy">These stay out of the list until you want them back.</p>
+            </div>
+            <div className="metric-pill">{archivedDrafts.length} hidden</div>
+          </div>
+          <div className="letter-list">
+            {archivedDrafts.length === 0 ? (
+              <p className="supporting-copy">No hidden emotions.</p>
+            ) : (
+              archivedDrafts.map((emotion) => (
+                <article
+                  className="phrase-editor-card phrase-editor-card-archived"
+                  data-color={emotion.colorToken}
+                  key={emotion.key}
+                >
+                  <div className="phrase-card-topline">
+                    <div className="phrase-card-identity">
+                      <h3 className="break-preview-chip" data-color={emotion.colorToken}>
+                        {emotion.chipLabel}
+                      </h3>
+                    </div>
+                    <button
+                      className="secondary-pill"
+                      onClick={() => updateEmotion(emotion.key, { isArchived: false })}
+                      type="button"
+                    >
+                      Show again
+                    </button>
+                  </div>
+                  <p className="supporting-copy">
+                    {emotion.commonHumanity || sharedCommonHumanity}
+                  </p>
+                </article>
+              ))
+            )}
+          </div>
+        </aside>
       </div>
     </section>
   )

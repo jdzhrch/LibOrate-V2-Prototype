@@ -141,13 +141,20 @@ describe('WebShell', () => {
 
     expect(screen.getByText('Before the review')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Write a letter' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Letter archive' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Saved letters' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Letter archive' })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Before the next meeting' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'After a hard meeting' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'When shame gets loud' })).toBeInTheDocument()
     expect(screen.getByText('What are you walking into?')).toBeInTheDocument()
+    const promptIcon = container.querySelector('.letter-prompt-summary-icon')
+    expect(promptIcon).not.toBeNull()
+    expect(promptIcon).toBeEmptyDOMElement()
+    expect(screen.queryByText('+', { selector: '.letter-prompt-summary-icon' })).not.toBeInTheDocument()
     expect(screen.getByLabelText('Letter title')).toBeInTheDocument()
-    expect(screen.getByLabelText('Meeting link')).toBeInTheDocument()
+    expect(screen.getByLabelText('Related meeting')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Meeting link')).not.toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'Not tied to a meeting' })).toBeInTheDocument()
     expect(screen.getByText('Choose a reflection frame')).toBeInTheDocument()
 
     const letterFormCard = container.querySelector('.letter-form-card')
@@ -167,7 +174,7 @@ describe('WebShell', () => {
     ).toBeInTheDocument()
 
     await user.type(screen.getByLabelText('Letter title'), 'New note')
-    await user.selectOptions(screen.getByLabelText('Meeting link'), 'client-kickoff')
+    await user.selectOptions(screen.getByLabelText('Related meeting'), 'client-kickoff')
     await user.type(screen.getByLabelText('Your letter'), 'I can slow the first sentence down.')
     await user.click(screen.getByRole('button', { name: 'Save letter' }))
 

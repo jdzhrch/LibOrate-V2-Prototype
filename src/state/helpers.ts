@@ -205,30 +205,77 @@ export function buildMeetingSnapshot(checkIns: CheckInRecord[]) {
   }))
 }
 
+export type TimelineGranularity = 'day' | 'week'
+
+const DAY_GRANULARITY_LIMIT = 14
+
+function startOfWeek(date: Date) {
+  const result = new Date(date)
+  const day = result.getDay()
+  result.setHours(0, 0, 0, 0)
+  result.setDate(result.getDate() - day)
+  return result
+}
+
 export function buildTimelinePoints(checkIns: CheckInRecord[]) {
-  const totalsByDay = new Map<string, { label: string; count: number }>()
+  const dailyTotals = new Map<string, { sortKey: string; date: Date; count: number }>()
 
   for (const record of checkIns) {
     const date = new Date(record.createdAt)
-    const dayKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-    const label = formatMonthDay(record.createdAt)
-    const current = totalsByDay.get(dayKey)
+    const sortKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+      date.getDate(),
+    ).padStart(2, '0')}`
+    const current = dailyTotals.get(sortKey)
 
-    totalsByDay.set(dayKey, {
-      label,
+    dailyTotals.set(sortKey, {
+      sortKey,
+      date,
       count: (current?.count ?? 0) + 1,
     })
   }
 
-  const points = [...totalsByDay.entries()]
-    .sort(([left], [right]) => (left < right ? -1 : 1))
-    .map(([, point]) => point)
-  const maxCount = points.reduce((largest, point) => Math.max(largest, point.count), 0)
+  const dailyEntries = [...dailyTotals.values()].sort((left, right) =>
+    left.sortKey < right.sortKey ? -1 : 1,
+  )
+  const granularity: TimelineGranularity =
+    dailyEntries.length > DAY_GRANULARITY_LIMIT ? 'week' : 'day'
 
-  return points.map((point) => ({
+  const grouped =
+    granularity === 'week'
+      ? aggregateByWeek(dailyEntries)
+      : dailyEntries.map((entry) => ({
+          label: formatMonthDay(entry.date.toISOString()),
+          count: entry.count,
+        }))
+  const maxCount = grouped.reduce((largest, point) => Math.max(largest, point.count), 0)
+
+  return grouped.map((point) => ({
     ...point,
+    granularity,
     heightPercent: maxCount === 0 ? 0 : Math.max(20, Math.round((point.count / maxCount) * 100)),
   }))
+}
+
+function aggregateByWeek(entries: { date: Date; count: number }[]) {
+  const buckets = new Map<string, { weekStart: Date; count: number }>()
+
+  for (const entry of entries) {
+    const weekStart = startOfWeek(entry.date)
+    const key = weekStart.toISOString()
+    const current = buckets.get(key)
+
+    buckets.set(key, {
+      weekStart,
+      count: (current?.count ?? 0) + entry.count,
+    })
+  }
+
+  return [...buckets.values()]
+    .sort((left, right) => left.weekStart.getTime() - right.weekStart.getTime())
+    .map((bucket) => ({
+      label: `Wk of ${formatMonthDay(bucket.weekStart.toISOString())}`,
+      count: bucket.count,
+    }))
 }
 
 export function buildCheckInInsights(

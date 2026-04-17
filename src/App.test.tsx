@@ -40,7 +40,11 @@ describe('App workspace sync', () => {
     fireEvent.change(within(stuckCard).getByLabelText('Self-kindness'), {
       target: { value: 'Move through this one sentence gently.' },
     })
-    fireEvent.change(within(addEmotionCard).getByLabelText('Label in Zoom'), {
+    expect(screen.queryByText('Auto-color preview')).not.toBeInTheDocument()
+    expect(screen.queryByText('New emotion')).not.toBeInTheDocument()
+    expect(screen.queryByText(/palette automatically/i)).not.toBeInTheDocument()
+
+    fireEvent.change(within(addEmotionCard).getByLabelText('Emotion label'), {
       target: { value: 'I need a reset' },
     })
     fireEvent.change(within(addEmotionCard).getByLabelText('Common humanity'), {
@@ -59,8 +63,8 @@ describe('App workspace sync', () => {
     }
 
     expect(within(nervousCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
-    await user.click(within(nervousCard).getByRole('button', { name: 'Archive' }))
-    await user.click(screen.getByRole('button', { name: 'Save library' }))
+    await user.click(within(nervousCard).getByRole('button', { name: 'Hide' }))
+    await user.click(screen.getByRole('button', { name: 'Save changes' }))
 
     expect(container.querySelector('.zoom-card-common-humanity')).toHaveAttribute(
       'data-state',
@@ -80,7 +84,8 @@ describe('App workspace sync', () => {
       throw new Error('Expected archived I feel nervous card to be present')
     }
 
-    expect(within(archivedNervousCard).getByRole('button', { name: 'Restore' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Hidden emotions' })).toBeInTheDocument()
+    expect(within(archivedNervousCard).getByRole('button', { name: 'Show again' })).toBeInTheDocument()
 
     const resetButton = screen.getByRole('button', { name: 'I need a reset' })
     const stuckButton = screen.getByRole('button', { name: 'I feel stuck' })
@@ -126,7 +131,7 @@ describe('App workspace sync', () => {
       throw new Error('Expected zoom surface to exist')
     }
 
-    expect(within(zoomSurface as HTMLElement).queryByText('Today · 3:30 PM')).not.toBeInTheDocument()
+    expect(within(zoomSurface as HTMLElement).queryByText('Tuesday · 3:30 PM')).not.toBeInTheDocument()
   })
 
   it('uses a full-width web shell on the standalone web route', () => {

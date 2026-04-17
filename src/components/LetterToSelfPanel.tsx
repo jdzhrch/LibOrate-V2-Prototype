@@ -70,11 +70,13 @@ export function LetterToSelfPanel() {
           </div>
 
           <section className="letter-form-card">
-            <div className="letter-prompt-block">
-              <div className="letter-guide-header">
-                <div className="meeting-summary-pill">{selectedMode.title}</div>
-                <p className="supporting-copy">{selectedMode.description}</p>
-              </div>
+            <details className="letter-prompt-block letter-prompt-accordion">
+              <summary className="letter-prompt-summary">
+                <span className="letter-prompt-summary-text">
+                  Don&rsquo;t know where to start? That&rsquo;s okay, try the gentle prompts below to guide you.
+                </span>
+                <span aria-hidden="true" className="letter-prompt-summary-icon" />
+              </summary>
               <div className="prompt-row">
                 {selectedMode.prompts.map((prompt, index) => (
                   <div className="prompt-pill" key={prompt}>
@@ -83,7 +85,7 @@ export function LetterToSelfPanel() {
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
 
             <div className="letter-form-grid">
               <div>
@@ -101,16 +103,16 @@ export function LetterToSelfPanel() {
 
               <div>
                 <label className="field-label" htmlFor="letter-meeting-link">
-                  Meeting link
+                  Related meeting
                 </label>
                 <select
-                  aria-label="Meeting link"
+                  aria-label="Related meeting"
                   className="field-input"
                   id="letter-meeting-link"
                   onChange={(event) => setLinkedMeetingId(event.target.value)}
                   value={linkedMeetingId}
                 >
-                  <option value="">No linked meeting</option>
+                  <option value="">Not tied to a meeting</option>
                   {meetings.map((meeting) => (
                     <option key={meeting.id} value={meeting.id}>
                       {meeting.title}
@@ -145,8 +147,8 @@ export function LetterToSelfPanel() {
         <aside className="letter-history-rail">
           <div className="letter-history-header">
             <div>
-              <h3>Letter archive</h3>
-              <p className="supporting-copy">Recent notes you can return to before the next meeting.</p>
+              <h3>Saved letters</h3>
+              <p className="supporting-copy">Notes you can revisit whenever you need them.</p>
             </div>
             <div className="metric-pill">{letters.length} saved</div>
           </div>
@@ -164,7 +166,7 @@ export function LetterToSelfPanel() {
                   <div className="letter-badges">
                     <span className="meeting-summary-pill">{getLetterMode(letter.mode).title}</span>
                     <span className="meeting-summary-pill">
-                      {linkedMeeting ? linkedMeeting.title : 'No linked meeting'}
+                      {linkedMeeting ? linkedMeeting.title : 'Not tied to a meeting'}
                     </span>
                   </div>
                 </article>

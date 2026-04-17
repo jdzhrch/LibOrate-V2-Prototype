@@ -22,6 +22,13 @@ export function CheckInOverview({
   const timelinePoints = buildTimelinePoints(checkIns)
   const timelineMax = timelinePoints.reduce((largest, point) => Math.max(largest, point.count), 0)
   const timelineMidpoint = timelineMax <= 1 ? 1 : Math.ceil(timelineMax / 2)
+  const timelineGranularity = timelinePoints[0]?.granularity ?? 'day'
+  const timelineCaption =
+    timelineGranularity === 'week' ? 'Weekly support moments' : 'Daily support moments'
+  const timelineCountLabel =
+    timelineGranularity === 'week'
+      ? `${timelinePoints.length} weeks`
+      : `${timelinePoints.length} days`
   const insights = buildCheckInInsights(checkIns, viewMode, emotionLibrary)
   const snapshotCountLabel =
     viewMode === 'meeting'
@@ -76,9 +83,9 @@ export function CheckInOverview({
         <section className="analytics-card">
           <div className="analytics-header">
             <h3>Support timeline</h3>
-            <span>{timelinePoints.length} days</span>
+            <span>{timelineCountLabel}</span>
           </div>
-          <p className="timeline-caption">Daily support moments</p>
+          <p className="timeline-caption">{timelineCaption}</p>
           <div className="timeline-chart" role="img" aria-label="Support timeline bar chart">
             <div aria-hidden="true" className="timeline-scale">
               <span>{timelineMax}</span>

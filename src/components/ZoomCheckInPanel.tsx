@@ -1,10 +1,6 @@
 import { useMemo, useState } from 'react'
-import { sharedCommonHumanity } from '../data/emotions'
 import { usePrototypeStore } from '../state/prototypeStore'
 import type { CheckInRecord } from '../types'
-
-const defaultSelfKindness =
-  'I can stay on my own side while I move through this meeting.'
 
 export function ZoomCheckInPanel() {
   const { activeEmotions, addCheckIn, checkIns, currentMeeting } = usePrototypeStore()
@@ -43,6 +39,7 @@ export function ZoomCheckInPanel() {
         data-color={activeEmotion?.colorToken}
         className="surface-card zoom-checkin-card zoom-card-emotions"
       >
+        <p className="zoom-card-eyebrow">Tap how you feel</p>
         <div className="zoom-emotion-field">
           <div className="chip-grid" role="list" aria-label="Emotional check-in options">
             {activeEmotions.map((emotion) => (
@@ -71,35 +68,33 @@ export function ZoomCheckInPanel() {
         </div>
       </section>
 
-      <section
-        aria-label="Common humanity"
-        data-state={activeRecord ? 'active' : 'idle'}
-        data-color={activeEmotion?.colorToken}
-        className={
-          activeRecord
-            ? 'surface-card zoom-checkin-card zoom-card-common-humanity zoom-checkin-card-live'
-            : 'surface-card zoom-checkin-card zoom-card-common-humanity'
-        }
-      >
-        <div className="zoom-note-shell">
-          <p className="zoom-card-body">{activeRecord?.commonHumanity ?? sharedCommonHumanity}</p>
-        </div>
-      </section>
+      {activeRecord ? (
+        <>
+          <section
+            aria-label="Common humanity"
+            data-state="active"
+            data-color={activeEmotion?.colorToken}
+            className="surface-card zoom-checkin-card zoom-card-common-humanity zoom-checkin-card-live zoom-checkin-card-revealed"
+          >
+            <p className="zoom-card-eyebrow">Take this in</p>
+            <div className="zoom-note-shell">
+              <p className="zoom-card-body">{activeRecord.commonHumanity}</p>
+            </div>
+          </section>
 
-      <section
-        aria-label="Self-kindness"
-        data-state={activeRecord ? 'active' : 'idle'}
-        data-color={activeEmotion?.colorToken}
-        className={
-          activeRecord
-            ? 'surface-card zoom-checkin-card zoom-card-self-kindness zoom-checkin-card-live'
-            : 'surface-card zoom-checkin-card zoom-card-self-kindness'
-        }
-      >
-        <div className="zoom-kindness-stage">
-          <p className="zoom-card-body">{activeRecord?.kindnessPhrase ?? defaultSelfKindness}</p>
-        </div>
-      </section>
+          <section
+            aria-label="Self-kindness"
+            data-state="active"
+            data-color={activeEmotion?.colorToken}
+            className="surface-card zoom-checkin-card zoom-card-self-kindness zoom-checkin-card-live zoom-checkin-card-revealed"
+          >
+            <p className="zoom-card-eyebrow">Try this with me</p>
+            <div className="zoom-kindness-stage">
+              <p className="zoom-card-body">{activeRecord.kindnessPhrase}</p>
+            </div>
+          </section>
+        </>
+      ) : null}
     </div>
   )
 }

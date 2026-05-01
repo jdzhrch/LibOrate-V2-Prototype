@@ -30,6 +30,18 @@ const defaultState: PersistedPrototypeState = {
   letters: seedLetters,
 }
 
+type AddEmotionInput = {
+  chipLabel: string
+  commonHumanity: string
+  kindnessPhrases: string[]
+}
+
+type SaveEmotionInput = {
+  chipLabel: string
+  commonHumanity: string
+  kindnessPhrases: string[]
+}
+
 type PrototypeContextValue = {
   meetings: MeetingInfo[]
   selectedMeetingId: string
@@ -40,7 +52,9 @@ type PrototypeContextValue = {
   activeEmotions: EmotionConfig[]
   setSelectedMeetingId: (meetingId: string) => void
   addCheckIn: (emotionKey: EmotionKey) => CheckInRecord
-  saveSelfCompassionBreak: (input: EmotionConfig[]) => void
+  addEmotion: (input: AddEmotionInput) => EmotionConfig
+  saveEmotion: (key: EmotionKey, input: SaveEmotionInput) => void
+  setEmotionArchived: (key: EmotionKey, isArchived: boolean) => void
   addLetter: (input: {
     title: string
     body: string
@@ -210,6 +224,24 @@ function getMeetingOrFallback(meetingId: string): MeetingInfo {
   return meetings.find((meeting) => meeting.id === meetingId) ?? meetings[0]
 }
 
+function buildEmotionKey(label: string, existingKeys: string[]) {
+  const baseKey =
+    label
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'custom-emotion'
+
+  let candidate = baseKey
+  let suffix = 2
+
+  while (existingKeys.includes(candidate)) {
+    candidate = `${baseKey}-${suffix}`
+    suffix += 1
+  }
+
+  return candidate
+}
+
 type PrototypeProviderProps = {
   children: ReactNode
   initialState?: PersistedPrototypeState
@@ -258,8 +290,55 @@ export function PrototypeProvider({
     return record
   }
 
-  function saveSelfCompassionBreak(input: EmotionConfig[]) {
-    setEmotionLibrary(hydrateEmotionLibrary(input))
+  function addEmotion(input: AddEmotionInput): EmotionConfig {
+    const trimmedLabel = input.chipLabel.trim() || 'Untitled emotion'
+    const usedTokens = emotionLibrary
+      .map((emotion) => emotion.colorToken)
+      .filter((token): token is NonNullable<EmotionConfig['colorToken']> => Boolean(token))
+    const existingKeys = emotionLibrary.map((emotion) => emotion.key)
+    const key = buildEmotionKey(trimmedLabel, existingKeys)
+    const phrases = normalizePhrases(input.kindnessPhrases, trimmedLabel)
+    const colorToken = getEmotionColorToken(key, undefined, usedTokens)
+
+    const next: EmotionConfig = {
+      key,
+      chipLabel: trimmedLabel,
+      supportTitle: trimmedLabel,
+      commonHumanity: input.commonHumanity.trim(),
+      kindnessPhrases: phrases,
+      isArchived: false,
+      colorToken,
+    }
+
+    setEmotionLibrary((current) => [...current, next])
+    return next
+  }
+
+  function saveEmotion(key: EmotionKey, input: SaveEmotionInput) {
+    setEmotionLibrary((current) =>
+      current.map((emotion) => {
+        if (emotion.key !== key) {
+          return emotion
+        }
+
+        const trimmedLabel = input.chipLabel.trim() || emotion.chipLabel
+        return {
+          ...emotion,
+          chipLabel: trimmedLabel,
+          supportTitle: trimmedLabel,
+          commonHumanity: input.commonHumanity.trim(),
+          kindnessPhrases: normalizePhrases(input.kindnessPhrases, trimmedLabel),
+        }
+      }),
+    )
+  }
+
+  function setEmotionArchived(key: EmotionKey, isArchived: boolean) {
+    setEmotionLibrary((current) =>
+      current.map((emotion) =>
+        emotion.key === key ? { ...emotion, isArchived } : emotion,
+      ),
+    )
   }
 
   function addLetter(input: {
@@ -293,7 +372,9 @@ export function PrototypeProvider({
         activeEmotions,
         setSelectedMeetingId,
         addCheckIn,
-        saveSelfCompassionBreak,
+        addEmotion,
+        saveEmotion,
+        setEmotionArchived,
         addLetter,
       }}
     >

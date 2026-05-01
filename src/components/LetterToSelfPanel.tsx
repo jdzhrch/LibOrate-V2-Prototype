@@ -32,7 +32,7 @@ export function LetterToSelfPanel() {
 
   return (
     <section className="surface-card letter-panel">
-      <div className="panel-header">
+      <header className="panel-header">
         <div>
           <p className="section-label">Self-reflection</p>
           <h2>Letters</h2>
@@ -42,39 +42,111 @@ export function LetterToSelfPanel() {
           </p>
         </div>
         <div className="metric-pill">{letters.length} letters</div>
-      </div>
+      </header>
 
-      <div className="letters-stage">
-        <section className="letter-workbench">
-          <div className="letter-workbench-header">
+      <details className="panel-drawer letter-history-drawer">
+        <summary className="panel-drawer-summary">
+          <div className="letter-history-header">
             <div>
-              <h3>Write a letter</h3>
-              <p className="supporting-copy">Choose a reflection frame</p>
+              <h3>Saved letters</h3>
+              <p className="supporting-copy">Notes you can revisit whenever you need them.</p>
             </div>
+            <div className="metric-pill">{letters.length} saved</div>
+          </div>
+          <span aria-hidden="true" className="panel-drawer-icon" />
+        </summary>
+        <div className="letter-list">
+          {letters.map((letter) => {
+            const linkedMeeting = meetings.find((meeting) => meeting.id === letter.linkedMeetingId)
+
+            return (
+              <article className="letter-entry-card" key={letter.id}>
+                <div className="record-meta">
+                  <strong>{letter.title}</strong>
+                  <span>{formatLongDate(letter.createdAt)}</span>
+                </div>
+                <p>{letter.body}</p>
+                <div className="letter-badges">
+                  <span className="meeting-summary-pill">{getLetterMode(letter.mode).title}</span>
+                  <span className="meeting-summary-pill">
+                    {linkedMeeting ? linkedMeeting.title : 'Not tied to a meeting'}
+                  </span>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </details>
+
+      <div className="letter-form-card">
+        <div className="letter-form-heading">
+          <h3>Write a letter</h3>
+          <p className="supporting-copy">Choose a reflection frame</p>
+        </div>
+
+        <div
+          className="segmented-control letter-mode-row"
+          role="group"
+          aria-label="Letter modes"
+        >
+          {letterModes.map((entry) => (
+            <button
+              aria-pressed={entry.key === mode}
+              className={
+                entry.key === mode ? 'segment-button segment-button-active' : 'segment-button'
+              }
+              key={entry.key}
+              onClick={() => setMode(entry.key)}
+              type="button"
+            >
+              {entry.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="letter-form-grid">
+          <div>
+            <label className="field-label" htmlFor="letter-title">
+              Letter title
+            </label>
+            <input
+              className="field-input"
+              id="letter-title"
+              onChange={(event) => setTitle(event.target.value)}
+              placeholder="What do you want to remember?"
+              value={title}
+            />
           </div>
 
-          <div className="letter-mode-grid" role="list" aria-label="Letter modes">
-            {letterModes.map((entry) => (
-              <button
-                aria-label={entry.title}
-                aria-pressed={entry.key === mode}
-                className={entry.key === mode ? 'letter-mode-card letter-mode-card-active' : 'letter-mode-card'}
-                key={entry.key}
-                onClick={() => setMode(entry.key)}
-                type="button"
-              >
-                <strong>{entry.title}</strong>
-                <span>{entry.description}</span>
-              </button>
-            ))}
+          <div>
+            <label className="field-label" htmlFor="letter-meeting-link">
+              Related meeting
+            </label>
+            <select
+              aria-label="Related meeting"
+              className="field-input"
+              id="letter-meeting-link"
+              onChange={(event) => setLinkedMeetingId(event.target.value)}
+              value={linkedMeetingId}
+            >
+              <option value="">Not tied to a meeting</option>
+              {meetings.map((meeting) => (
+                <option key={meeting.id} value={meeting.id}>
+                  {meeting.title}
+                </option>
+              ))}
+            </select>
           </div>
+        </div>
 
-          <section className="letter-form-card">
-            <details className="letter-prompt-block letter-prompt-accordion">
+        <div className="letter-body-field">
+          <div className="letter-body-label-row">
+            <label className="field-label" htmlFor="letter-to-self">
+              Your letter
+            </label>
+            <details className="letter-prompt-accordion letter-prompt-corner">
               <summary className="letter-prompt-summary">
-                <span className="letter-prompt-summary-text">
-                  Don&rsquo;t know where to start? That&rsquo;s okay, try the gentle prompts below to guide you.
-                </span>
+                <span className="letter-prompt-summary-text">Need a prompt?</span>
                 <span aria-hidden="true" className="letter-prompt-summary-icon" />
               </summary>
               <div className="prompt-row">
@@ -86,94 +158,22 @@ export function LetterToSelfPanel() {
                 ))}
               </div>
             </details>
-
-            <div className="letter-form-grid">
-              <div>
-                <label className="field-label" htmlFor="letter-title">
-                  Letter title
-                </label>
-                <input
-                  className="field-input"
-                  id="letter-title"
-                  onChange={(event) => setTitle(event.target.value)}
-                  placeholder="What do you want to remember?"
-                  value={title}
-                />
-              </div>
-
-              <div>
-                <label className="field-label" htmlFor="letter-meeting-link">
-                  Related meeting
-                </label>
-                <select
-                  aria-label="Related meeting"
-                  className="field-input"
-                  id="letter-meeting-link"
-                  onChange={(event) => setLinkedMeetingId(event.target.value)}
-                  value={linkedMeetingId}
-                >
-                  <option value="">Not tied to a meeting</option>
-                  {meetings.map((meeting) => (
-                    <option key={meeting.id} value={meeting.id}>
-                      {meeting.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="field-label" htmlFor="letter-to-self">
-                Your letter
-              </label>
-              <textarea
-                className="letter-input"
-                id="letter-to-self"
-                onChange={(event) => setBody(event.target.value)}
-                placeholder="Write to yourself the way you would want support to sound before, during, or after the meeting."
-                rows={10}
-                value={body}
-              />
-            </div>
-
-            <div className="letter-footer">
-              <button className="primary-pill" onClick={handleSave} type="button">
-                Save letter
-              </button>
-            </div>
-          </section>
-        </section>
-
-        <aside className="letter-history-rail">
-          <div className="letter-history-header">
-            <div>
-              <h3>Saved letters</h3>
-              <p className="supporting-copy">Notes you can revisit whenever you need them.</p>
-            </div>
-            <div className="metric-pill">{letters.length} saved</div>
           </div>
-          <div className="letter-list">
-            {letters.map((letter) => {
-              const linkedMeeting = meetings.find((meeting) => meeting.id === letter.linkedMeetingId)
+          <textarea
+            className="letter-input"
+            id="letter-to-self"
+            onChange={(event) => setBody(event.target.value)}
+            placeholder="Write to yourself the way you would want support to sound before, during, or after the meeting."
+            rows={10}
+            value={body}
+          />
+        </div>
 
-              return (
-                <article className="letter-entry-card" key={letter.id}>
-                  <div className="record-meta">
-                    <strong>{letter.title}</strong>
-                    <span>{formatLongDate(letter.createdAt)}</span>
-                  </div>
-                  <p>{letter.body}</p>
-                  <div className="letter-badges">
-                    <span className="meeting-summary-pill">{getLetterMode(letter.mode).title}</span>
-                    <span className="meeting-summary-pill">
-                      {linkedMeeting ? linkedMeeting.title : 'Not tied to a meeting'}
-                    </span>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </aside>
+        <div className="letter-footer">
+          <button className="primary-pill" onClick={handleSave} type="button">
+            Save letter
+          </button>
+        </div>
       </div>
     </section>
   )

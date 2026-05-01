@@ -33,6 +33,7 @@ describe('App workspace sync', () => {
       throw new Error('Expected phrase editing cards to be present')
     }
 
+    await user.click(within(stuckCard).getByRole('button', { name: 'Edit I feel stuck' }))
     expect(within(stuckCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
     fireEvent.change(within(stuckCard).getByLabelText('Common humanity'), {
       target: { value: 'Many people lose their footing while speaking. This moment does not take you out of the room.' },
@@ -40,6 +41,7 @@ describe('App workspace sync', () => {
     fireEvent.change(within(stuckCard).getByLabelText('Self-kindness'), {
       target: { value: 'Move through this one sentence gently.' },
     })
+    await user.click(within(stuckCard).getByRole('button', { name: 'Save changes' }))
     expect(screen.queryByText('Auto-color preview')).not.toBeInTheDocument()
     expect(screen.queryByText('New emotion')).not.toBeInTheDocument()
     expect(screen.queryByText(/palette automatically/i)).not.toBeInTheDocument()
@@ -62,18 +64,12 @@ describe('App workspace sync', () => {
       throw new Error('Expected I feel nervous card to be present')
     }
 
+    await user.click(within(nervousCard).getByRole('button', { name: 'Edit I feel nervous' }))
     expect(within(nervousCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
     await user.click(within(nervousCard).getByRole('button', { name: 'Hide' }))
-    await user.click(screen.getByRole('button', { name: 'Save changes' }))
 
-    expect(container.querySelector('.zoom-card-common-humanity')).toHaveAttribute(
-      'data-state',
-      'idle',
-    )
-    expect(container.querySelector('.zoom-card-self-kindness')).toHaveAttribute(
-      'data-state',
-      'idle',
-    )
+    expect(container.querySelector('.zoom-card-common-humanity')).toBeNull()
+    expect(container.querySelector('.zoom-card-self-kindness')).toBeNull()
 
     expect(screen.queryByRole('button', { name: 'I feel nervous' })).not.toBeInTheDocument()
     const archivedNervousCard = screen.getByRole('heading', { name: 'I feel nervous' }).closest(
@@ -86,6 +82,8 @@ describe('App workspace sync', () => {
 
     expect(screen.getByRole('heading', { name: 'Hidden emotions' })).toBeInTheDocument()
     expect(within(archivedNervousCard).getByRole('button', { name: 'Show again' })).toBeInTheDocument()
+
+    await user.click(screen.getByRole('link', { name: 'Zoom' }))
 
     const resetButton = screen.getByRole('button', { name: 'I need a reset' })
     const stuckButton = screen.getByRole('button', { name: 'I feel stuck' })

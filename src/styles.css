@@ -76,9 +76,15 @@ a {
   display: flex;
   justify-content: space-between;
   gap: 18px;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   margin-bottom: 18px;
+}
+
+.route-header-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .section-label,

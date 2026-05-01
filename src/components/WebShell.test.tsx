@@ -33,12 +33,12 @@ describe('WebShell', () => {
               meetingId: 'design-review',
               meetingTitle: 'Tuesday Design Review',
               meetingStartTime: 'Today · 3:30 PM',
-              emotionKey: 'stuck',
-              emotionLabel: 'I feel stuck',
-              supportTitle: 'Stay with yourself here',
+              emotionKey: 'anxiety',
+              emotionLabel: 'Anxiety',
+              supportTitle: 'Settle the rush',
               commonHumanity: 'A difficult moment is still a human moment.',
               kindnessPhrase:
-                'I am still part of this conversation, even if the words take time.',
+                'This feeling is loud, but it will pass.',
               createdAt: '2026-04-02T15:32:00.000Z',
             },
             {
@@ -46,11 +46,11 @@ describe('WebShell', () => {
               meetingId: 'practice-circle',
               meetingTitle: 'Practice Circle',
               meetingStartTime: 'Tomorrow · 11:00 AM',
-              emotionKey: 'stuck',
-              emotionLabel: 'I feel stuck',
-              supportTitle: 'Stay with yourself here',
+              emotionKey: 'anxiety',
+              emotionLabel: 'Anxiety',
+              supportTitle: 'Settle the rush',
               commonHumanity: 'A difficult moment is still a human moment.',
-              kindnessPhrase: 'I can pause and start again without turning against myself.',
+              kindnessPhrase: 'I can slow my body and my pace.',
               createdAt: '2026-04-01T15:32:00.000Z',
             },
             {
@@ -58,11 +58,11 @@ describe('WebShell', () => {
               meetingId: 'client-kickoff',
               meetingTitle: 'Client Kickoff',
               meetingStartTime: 'Friday · 9:00 AM',
-              emotionKey: 'rushing',
-              emotionLabel: 'I want to rush',
-              supportTitle: 'Slow the pressure, not your value',
+              emotionKey: 'guilt-frustration',
+              emotionLabel: 'Guilt & Frustration',
+              supportTitle: 'Release the blame',
               commonHumanity: 'Urgency is a stress signal, not an order.',
-              kindnessPhrase: 'I am allowed to slow this down.',
+              kindnessPhrase: 'I am not failing; this is just hard.',
               createdAt: '2026-02-10T15:32:00.000Z',
             },
           ],
@@ -74,7 +74,7 @@ describe('WebShell', () => {
 
     expect(screen.getByRole('tab', { name: 'Patterns' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Letters' })).toBeInTheDocument()
-    expect(screen.getByRole('tab', { name: 'Self-Compassion Break' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Emotions setting' })).toBeInTheDocument()
     expect(screen.queryByRole('tab', { name: 'Check-ins' })).not.toBeInTheDocument()
     expect(screen.getByRole('tablist', { name: 'Pattern views' }).closest('.history-toolbar')).not.toBeNull()
     expect(screen.getByRole('heading', { name: 'Patterns' })).toBeInTheDocument()
@@ -91,8 +91,8 @@ describe('WebShell', () => {
     expect(screen.queryByText('11:32 AM')).not.toBeInTheDocument()
     expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Client Kickoff').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Stuck').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Rush').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Anxiety').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Guilt & Frustration').length).toBeGreaterThan(0)
     expect(screen.queryByText('with history')).not.toBeInTheDocument()
     expect(screen.queryByText('Before the review')).not.toBeInTheDocument()
 
@@ -106,10 +106,10 @@ describe('WebShell', () => {
     expect(screen.getByText('Emotion pattern map')).toBeInTheDocument()
     expect(screen.getByText('Most repeated state')).toBeInTheDocument()
     expect(screen.queryByText('Highest-support meeting')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Expand I feel stuck' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Expand Anxiety' })).toBeInTheDocument()
     expect(screen.queryByText('Practice Circle')).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Expand I feel stuck' }))
-    expect(screen.getAllByText('I feel stuck').length).toBeGreaterThan(1)
+    fireEvent.click(screen.getByRole('button', { name: 'Expand Anxiety' }))
+    expect(screen.getAllByText('Anxiety').length).toBeGreaterThan(1)
     expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
   })
 

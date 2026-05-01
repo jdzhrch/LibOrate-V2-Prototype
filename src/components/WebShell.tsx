@@ -43,7 +43,7 @@ export function WebShell({ className }: WebShellProps) {
             role="tab"
             type="button"
           >
-            Self-Compassion Break
+            Emotions setting
           </button>
         </div>
       </div>

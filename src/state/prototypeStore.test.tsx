@@ -26,14 +26,14 @@ function StoreProbe() {
 describe('buildCheckInRecord', () => {
   it('binds the created record to the active meeting and rotates phrase selection', () => {
     const first = buildCheckInRecord({
-      emotionKey: 'nervous',
+      emotionKey: 'fear',
       meeting: meetings[1],
       existingCheckIns: [],
       emotionLibrary: [
         {
-          key: 'nervous',
-          chipLabel: 'I feel nervous',
-          supportTitle: 'A steadier way in',
+          key: 'fear',
+          chipLabel: 'Fear',
+          supportTitle: 'Steady through fear',
           commonHumanity: '',
           kindnessPhrases: ['First custom phrase', 'Second custom phrase'],
           isArchived: false,
@@ -43,14 +43,14 @@ describe('buildCheckInRecord', () => {
     })
 
     const second = buildCheckInRecord({
-      emotionKey: 'nervous',
+      emotionKey: 'fear',
       meeting: meetings[1],
       existingCheckIns: [first],
       emotionLibrary: [
         {
-          key: 'nervous',
-          chipLabel: 'I feel nervous',
-          supportTitle: 'A steadier way in',
+          key: 'fear',
+          chipLabel: 'Fear',
+          supportTitle: 'Steady through fear',
           commonHumanity: '',
           kindnessPhrases: ['First custom phrase', 'Second custom phrase'],
           isArchived: false,
@@ -94,32 +94,32 @@ describe('filterCheckInsByDateRange', () => {
   it('returns only the records inside the chosen date window', () => {
     const records = [
       buildCheckInRecord({
-        emotionKey: 'stuck',
+        emotionKey: 'anxiety',
         meeting: meetings[0],
         existingCheckIns: [],
         emotionLibrary: [
           {
-            key: 'stuck',
-            chipLabel: 'I feel stuck',
-            supportTitle: 'Stay here',
+            key: 'anxiety',
+            chipLabel: 'Anxiety',
+            supportTitle: 'Settle the rush',
             commonHumanity: '',
-            kindnessPhrases: ['Stay here'],
+            kindnessPhrases: ['Slow my pace'],
             isArchived: false,
           },
         ],
         now: new Date('2026-04-02T15:30:00.000Z'),
       }),
       buildCheckInRecord({
-        emotionKey: 'rushing',
+        emotionKey: 'guilt-frustration',
         meeting: meetings[1],
         existingCheckIns: [],
         emotionLibrary: [
           {
-            key: 'rushing',
-            chipLabel: 'I want to rush',
-            supportTitle: 'Slow it down',
+            key: 'guilt-frustration',
+            chipLabel: 'Guilt & Frustration',
+            supportTitle: 'Release the blame',
             commonHumanity: '',
-            kindnessPhrases: ['Slow it down'],
+            kindnessPhrases: ['Release the blame'],
             isArchived: false,
           },
         ],
@@ -141,16 +141,16 @@ describe('buildTimelinePoints', () => {
   it('switches to weekly aggregation when the range spans more than 14 distinct days', () => {
     const records = Array.from({ length: 15 }, (_, index) =>
       buildCheckInRecord({
-        emotionKey: 'stuck',
+        emotionKey: 'anxiety',
         meeting: meetings[0],
         existingCheckIns: [],
         emotionLibrary: [
           {
-            key: 'stuck',
-            chipLabel: 'I feel stuck',
-            supportTitle: 'Stay here',
+            key: 'anxiety',
+            chipLabel: 'Anxiety',
+            supportTitle: 'Settle the rush',
             commonHumanity: '',
-            kindnessPhrases: ['Stay here'],
+            kindnessPhrases: ['Slow my pace'],
             isArchived: false,
           },
         ],
@@ -207,16 +207,16 @@ describe('PrototypeProvider seed data', () => {
         selectedMeetingId: meetings[0].id,
         checkIns: [
           buildCheckInRecord({
-            emotionKey: 'steadying',
+            emotionKey: 'isolation',
             meeting: meetings[0],
             existingCheckIns: [],
             emotionLibrary: [
               {
-                key: 'steadying',
-                chipLabel: 'I am finding my footing',
-                supportTitle: 'Let the ease count',
+                key: 'isolation',
+                chipLabel: 'Isolation',
+                supportTitle: 'You are not alone',
                 commonHumanity: sharedCommonHumanity,
-                kindnessPhrases: ['I can let this small bit of ease matter.'],
+                kindnessPhrases: ['I can reach for connection in small ways.'],
                 isArchived: false,
               },
             ],
@@ -252,16 +252,16 @@ describe('PrototypeProvider seed data', () => {
 
     const repeatedTodayRecords = Array.from({ length: 101 }, (_, index) =>
       buildCheckInRecord({
-        emotionKey: 'nervous',
+        emotionKey: 'fear',
         meeting: meetings[0],
         existingCheckIns: [],
         emotionLibrary: [
           {
-            key: 'nervous',
-            chipLabel: 'I feel nervous',
-            supportTitle: 'A steadier way in',
+            key: 'fear',
+            chipLabel: 'Fear',
+            supportTitle: 'Steady through fear',
             commonHumanity: sharedCommonHumanity,
-            kindnessPhrases: ['I can begin at the pace my body can manage.'],
+            kindnessPhrases: ['I can breathe and let the word come.'],
             isArchived: false,
           },
         ],

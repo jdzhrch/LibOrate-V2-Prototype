@@ -244,7 +244,7 @@ export function PhraseLibraryPanel() {
       <header className="panel-header">
         <div>
           <p className="section-label">In-meeting support</p>
-          <h2>Self-Compassion Break</h2>
+          <h2>Emotions setting</h2>
           <p className="supporting-copy">
             Shape the support people see after each emotional check-in. Every emotion starts from
             the same common humanity note, and each card can be rewritten.

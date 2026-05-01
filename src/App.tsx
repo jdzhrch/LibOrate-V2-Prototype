@@ -30,9 +30,25 @@ function App() {
   return (
     <div className="page-shell">
       <header className="route-header">
-        <div>
-          <p className="section-label">Views</p>
-          <h1 className="page-title">LibOrate prototype</h1>
+        <div className="route-header-main">
+          <div>
+            <p className="section-label">Views</p>
+            <h1 className="page-title">LibOrate prototype</h1>
+          </div>
+          <nav className="route-nav" aria-label="Prototype routes">
+            <NavLink
+              className={({ isActive }) => (isActive ? 'route-link route-link-active' : 'route-link')}
+              to="/zoom"
+            >
+              Zoom
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'route-link route-link-active' : 'route-link')}
+              to="/web"
+            >
+              Web
+            </NavLink>
+          </nav>
         </div>
         {isZoomRoute ? (
           <div className="page-toolbar">
@@ -53,20 +69,6 @@ function App() {
             </select>
           </div>
         ) : null}
-        <nav className="route-nav" aria-label="Prototype routes">
-          <NavLink
-            className={({ isActive }) => (isActive ? 'route-link route-link-active' : 'route-link')}
-            to="/zoom"
-          >
-            Zoom
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? 'route-link route-link-active' : 'route-link')}
-            to="/web"
-          >
-            Web
-          </NavLink>
-        </nav>
       </header>
 
       <Routes>

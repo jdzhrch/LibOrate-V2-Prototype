@@ -17,31 +17,31 @@ describe('App workspace sync', () => {
       </MemoryRouter>,
     )
 
-    await user.click(screen.getByRole('tab', { name: 'Self-Compassion Break' }))
+    await user.click(screen.getByRole('tab', { name: 'Emotions setting' }))
     expect(screen.queryByRole('tab', { name: 'Phrases' })).not.toBeInTheDocument()
     expect(screen.queryByText('Choose what fits this moment.')).not.toBeInTheDocument()
     expect(screen.queryByText('Custom common humanity')).not.toBeInTheDocument()
 
-    const stuckCard = screen.getByRole('heading', { name: 'I feel stuck' }).closest(
+    const anxietyCard = screen.getByRole('heading', { name: 'Anxiety' }).closest(
       '.phrase-editor-card',
     ) as HTMLElement | null
     const addEmotionCard = screen.getByRole('heading', { name: 'Add emotion' }).closest(
       '.phrase-create-card',
     ) as HTMLElement | null
 
-    if (!stuckCard || !addEmotionCard) {
+    if (!anxietyCard || !addEmotionCard) {
       throw new Error('Expected phrase editing cards to be present')
     }
 
-    await user.click(within(stuckCard).getByRole('button', { name: 'Edit I feel stuck' }))
-    expect(within(stuckCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
-    fireEvent.change(within(stuckCard).getByLabelText('Common humanity'), {
+    await user.click(within(anxietyCard).getByRole('button', { name: 'Edit Anxiety' }))
+    expect(within(anxietyCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
+    fireEvent.change(within(anxietyCard).getByLabelText('Common humanity'), {
       target: { value: 'Many people lose their footing while speaking. This moment does not take you out of the room.' },
     })
-    fireEvent.change(within(stuckCard).getByLabelText('Self-kindness'), {
+    fireEvent.change(within(anxietyCard).getByLabelText('Self-kindness'), {
       target: { value: 'Move through this one sentence gently.' },
     })
-    await user.click(within(stuckCard).getByRole('button', { name: 'Save changes' }))
+    await user.click(within(anxietyCard).getByRole('button', { name: 'Save changes' }))
     expect(screen.queryByText('Auto-color preview')).not.toBeInTheDocument()
     expect(screen.queryByText('New emotion')).not.toBeInTheDocument()
     expect(screen.queryByText(/palette automatically/i)).not.toBeInTheDocument()
@@ -56,38 +56,38 @@ describe('App workspace sync', () => {
       target: { value: 'I can reset this moment and begin again.' },
     })
     await user.click(screen.getByRole('button', { name: 'Add emotion' }))
-    const nervousCard = screen.getByRole('heading', { name: 'I feel nervous' }).closest(
+    const fearCard = screen.getByRole('heading', { name: 'Fear' }).closest(
       '.phrase-editor-card',
     ) as HTMLElement | null
 
-    if (!nervousCard) {
-      throw new Error('Expected I feel nervous card to be present')
+    if (!fearCard) {
+      throw new Error('Expected Fear card to be present')
     }
 
-    await user.click(within(nervousCard).getByRole('button', { name: 'Edit I feel nervous' }))
-    expect(within(nervousCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
-    await user.click(within(nervousCard).getByRole('button', { name: 'Hide' }))
+    await user.click(within(fearCard).getByRole('button', { name: 'Edit Fear' }))
+    expect(within(fearCard).getByLabelText('Common humanity')).toHaveValue(sharedCommonHumanity)
+    await user.click(within(fearCard).getByRole('button', { name: 'Hide' }))
 
     expect(container.querySelector('.zoom-card-common-humanity')).toBeNull()
     expect(container.querySelector('.zoom-card-self-kindness')).toBeNull()
 
-    expect(screen.queryByRole('button', { name: 'I feel nervous' })).not.toBeInTheDocument()
-    const archivedNervousCard = screen.getByRole('heading', { name: 'I feel nervous' }).closest(
+    expect(screen.queryByRole('button', { name: 'Fear' })).not.toBeInTheDocument()
+    const archivedFearCard = screen.getByRole('heading', { name: 'Fear' }).closest(
       '.phrase-editor-card',
     ) as HTMLElement | null
 
-    if (!archivedNervousCard) {
-      throw new Error('Expected archived I feel nervous card to be present')
+    if (!archivedFearCard) {
+      throw new Error('Expected archived Fear card to be present')
     }
 
     expect(screen.getByRole('heading', { name: 'Hidden emotions' })).toBeInTheDocument()
-    expect(within(archivedNervousCard).getByRole('button', { name: 'Show again' })).toBeInTheDocument()
+    expect(within(archivedFearCard).getByRole('button', { name: 'Show again' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('link', { name: 'Zoom' }))
 
     const resetButton = screen.getByRole('button', { name: 'I need a reset' })
-    const stuckButton = screen.getByRole('button', { name: 'I feel stuck' })
-    expect(resetButton).toHaveAttribute('data-color', 'teal')
+    const stuckButton = screen.getByRole('button', { name: 'Anxiety' })
+    expect(resetButton).toHaveAttribute('data-color', 'sky')
     expect(stuckButton).toHaveAttribute('data-color', 'indigo')
     await user.click(resetButton)
     await user.click(resetButton)

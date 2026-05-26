@@ -8,7 +8,7 @@ type WebShellProps = {
 }
 
 export function WebShell({ className }: WebShellProps) {
-  const [page, setPage] = useState<'patterns' | 'letters' | 'self-compassion-break'>('patterns')
+  const [page, setPage] = useState<'patterns' | 'history' | 'letters' | 'self-compassion-break'>('patterns')
 
   return (
     <section className={className ? `web-shell ${className}` : 'web-shell'}>
@@ -17,10 +17,10 @@ export function WebShell({ className }: WebShellProps) {
           <span className="brand-mark" />
           <div className="web-app-title">LibOrate</div>
         </div>
-        <div className="segmented-control" role="tablist" aria-label="Web pages">
+        <nav className="web-nav-tabs" role="tablist" aria-label="Web pages">
           <button
             aria-selected={page === 'patterns'}
-            className={page === 'patterns' ? 'segment-button segment-button-active' : 'segment-button'}
+            className={page === 'patterns' ? 'web-nav-tab web-nav-tab-active' : 'web-nav-tab'}
             onClick={() => setPage('patterns')}
             role="tab"
             type="button"
@@ -28,8 +28,17 @@ export function WebShell({ className }: WebShellProps) {
             Patterns
           </button>
           <button
+            aria-selected={page === 'history'}
+            className={page === 'history' ? 'web-nav-tab web-nav-tab-active' : 'web-nav-tab'}
+            onClick={() => setPage('history')}
+            role="tab"
+            type="button"
+          >
+            History
+          </button>
+          <button
             aria-selected={page === 'letters'}
-            className={page === 'letters' ? 'segment-button segment-button-active' : 'segment-button'}
+            className={page === 'letters' ? 'web-nav-tab web-nav-tab-active' : 'web-nav-tab'}
             onClick={() => setPage('letters')}
             role="tab"
             type="button"
@@ -38,19 +47,28 @@ export function WebShell({ className }: WebShellProps) {
           </button>
           <button
             aria-selected={page === 'self-compassion-break'}
-            className={page === 'self-compassion-break' ? 'segment-button segment-button-active' : 'segment-button'}
+            className={page === 'self-compassion-break' ? 'web-nav-tab web-nav-tab-active' : 'web-nav-tab'}
             onClick={() => setPage('self-compassion-break')}
             role="tab"
             type="button"
           >
             Emotions setting
           </button>
-        </div>
+        </nav>
       </div>
 
-      {page === 'patterns' ? <MeetingHistoryPanel /> : null}
-      {page === 'letters' ? <LetterToSelfPanel /> : null}
-      {page === 'self-compassion-break' ? <PhraseLibraryPanel /> : null}
+      <div style={{ display: page === 'patterns' ? 'block' : 'none' }}>
+        <MeetingHistoryPanel activeSection="patterns" />
+      </div>
+      <div style={{ display: page === 'history' ? 'block' : 'none' }}>
+        <MeetingHistoryPanel activeSection="history" />
+      </div>
+      <div style={{ display: page === 'letters' ? 'block' : 'none' }}>
+        <LetterToSelfPanel />
+      </div>
+      <div style={{ display: page === 'self-compassion-break' ? 'block' : 'none' }}>
+        <PhraseLibraryPanel />
+      </div>
     </section>
   )
 }

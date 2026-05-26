@@ -106,6 +106,7 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
                   onChange={(event) =>
                     setDraft((current) => ({ ...current, chipLabel: event.target.value }))
                   }
+                  placeholder="e.g. Hopeful, Disappointed"
                   type="text"
                   value={draft.chipLabel}
                 />
@@ -120,6 +121,7 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
                   onChange={(event) =>
                     setDraft((current) => ({ ...current, commonHumanity: event.target.value }))
                   }
+                  placeholder="e.g. A difficult moment is still a human moment."
                   value={draft.commonHumanity}
                 />
               </div>
@@ -136,6 +138,7 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
                       kindnessPhrasesText: event.target.value,
                     }))
                   }
+                  placeholder="e.g. I can slow down and breathe. (One phrase per line)"
                   value={draft.kindnessPhrasesText}
                 />
               </div>
@@ -213,7 +216,7 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
           <header className="slideout-header">
             <div>
-              <h3 className="phrase-section-title">Add emotion</h3>
+              <h3>Add emotion</h3>
               <p className="supporting-copy">Create a new custom emotion for check-ins</p>
             </div>
             <button
@@ -238,6 +241,7 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
                   onChange={(event) =>
                     setDraft((current) => ({ ...current, chipLabel: event.target.value }))
                   }
+                  placeholder="e.g. Hopeful, Calm"
                   type="text"
                   value={draft.chipLabel}
                 />
@@ -252,6 +256,7 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
                   onChange={(event) =>
                     setDraft((current) => ({ ...current, commonHumanity: event.target.value }))
                   }
+                  placeholder="e.g. Many people feel this way in tense moments..."
                   value={draft.commonHumanity}
                 />
               </div>
@@ -265,6 +270,7 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
                   onChange={(event) =>
                     setDraft((current) => ({ ...current, kindnessPhrasesText: event.target.value }))
                   }
+                  placeholder="e.g. I am doing the best I can right now. (One phrase per line)"
                   value={draft.kindnessPhrasesText}
                 />
               </div>
@@ -275,7 +281,12 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
             <button type="button" className="secondary-pill" onClick={() => setIsOpen(false)}>
               Cancel
             </button>
-            <button className="primary-pill" onClick={handleAdd} type="button">
+            <button
+              className="primary-pill"
+              disabled={!draft.chipLabel.trim()}
+              onClick={handleAdd}
+              type="button"
+            >
               Add emotion
             </button>
           </footer>

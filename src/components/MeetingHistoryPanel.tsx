@@ -10,7 +10,11 @@ import { CheckInOverview } from './CheckInOverview'
 import { EmotionGroup } from './EmotionGroup'
 import { MeetingGroup } from './MeetingGroup'
 
-export function MeetingHistoryPanel() {
+type MeetingHistoryPanelProps = {
+  activeSection: 'patterns' | 'history'
+}
+
+export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps) {
   const { checkIns, emotionLibrary } = usePrototypeStore()
   const [viewMode, setViewMode] = useState<'meeting' | 'emotion'>('meeting')
   const [filterMode, setFilterMode] = useState<CheckInDateFilterMode>('all')
@@ -41,7 +45,10 @@ export function MeetingHistoryPanel() {
     <section className="web-panel-block patterns-panel" data-view-mode={viewMode}>
       <div className="panel-header">
         <div>
-          <h2>Patterns</h2>
+          <p className="section-label">
+            {activeSection === 'patterns' ? 'Analytics & Insights' : 'Check-ins Timeline'}
+          </p>
+          <h2>{activeSection === 'patterns' ? 'Patterns' : 'History'}</h2>
         </div>
         <button
           className="secondary-pill secondary-pill-quiet reset-data-btn"
@@ -112,12 +119,8 @@ export function MeetingHistoryPanel() {
         </div>
       </div>
 
-      <details className="analytics-drawer">
-        <summary className="analytics-drawer-summary">
-          <span className="analytics-drawer-title">📊 View Insights & Analytics Charts</span>
-          <span aria-hidden="true" className="panel-drawer-icon" />
-        </summary>
-        <div className="analytics-drawer-content">
+      {activeSection === 'patterns' ? (
+        <div className="analytics-flat-section">
           <CheckInOverview
             checkIns={filteredCheckIns}
             emotionLibrary={emotionLibrary}
@@ -125,24 +128,26 @@ export function MeetingHistoryPanel() {
             onViewModeChange={setViewMode}
           />
         </div>
-      </details>
+      ) : (
+        <div className="timeline-section">
+          <div className="meeting-group-list">
+            {!hasResults ? <div className="empty-record">No support moments in this range yet.</div> : null}
 
-      <div className="meeting-group-list">
-        {!hasResults ? <div className="empty-record">No support moments in this range yet.</div> : null}
-
-        {viewMode === 'meeting'
-          ? groups.map((group) => (
-              <MeetingGroup
-                key={group.meeting.id}
-                emotionLibrary={emotionLibrary}
-                meeting={group.meeting}
-                records={group.records}
-              />
-            ))
-          : emotionGroups.map((group) => (
-              <EmotionGroup key={group.emotion.key} emotion={group.emotion} records={group.records} />
-            ))}
-      </div>
+            {viewMode === 'meeting'
+              ? groups.map((group) => (
+                  <MeetingGroup
+                    key={group.meeting.id}
+                    emotionLibrary={emotionLibrary}
+                    meeting={group.meeting}
+                    records={group.records}
+                  />
+                ))
+              : emotionGroups.map((group) => (
+                  <EmotionGroup key={group.emotion.key} emotion={group.emotion} records={group.records} />
+                ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

@@ -40,31 +40,29 @@ export function ZoomCheckInPanel() {
         className="surface-card zoom-checkin-card zoom-card-emotions"
       >
         <p className="zoom-card-eyebrow">Tap how you feel</p>
-        <div className="zoom-emotion-field">
-          <div className="chip-grid" role="list" aria-label="Emotional check-in options">
-            {activeEmotions.map((emotion) => (
-              <button
-                key={emotion.key}
-                aria-pressed={activeSelectedEmotionKey === emotion.key}
-                data-color={emotion.colorToken}
-                data-meeting-count={meetingEmotionCounts.get(emotion.key) ?? undefined}
-                className={
-                  activeSelectedEmotionKey === emotion.key
-                    ? 'emotion-chip emotion-chip-active'
-                    : 'emotion-chip'
-                }
-                onClick={() => handleCheckIn(emotion.key)}
-                type="button"
-              >
-                <span>{emotion.chipLabel}</span>
-                {meetingEmotionCounts.get(emotion.key) ? (
-                  <span aria-hidden="true" className="emotion-chip-count">
-                    {meetingEmotionCounts.get(emotion.key)}
-                  </span>
-                ) : null}
-              </button>
-            ))}
-          </div>
+        <div className="chip-grid" role="list" aria-label="Emotional check-in options">
+          {activeEmotions.map((emotion) => (
+            <button
+              key={emotion.key}
+              aria-pressed={activeSelectedEmotionKey === emotion.key}
+              data-color={emotion.colorToken}
+              data-meeting-count={meetingEmotionCounts.get(emotion.key) ?? undefined}
+              className={
+                activeSelectedEmotionKey === emotion.key
+                  ? 'emotion-chip emotion-chip-active'
+                  : 'emotion-chip'
+              }
+              onClick={() => handleCheckIn(emotion.key)}
+              type="button"
+            >
+              <span>{emotion.chipLabel}</span>
+              {meetingEmotionCounts.get(emotion.key) ? (
+                <span aria-hidden="true" className="emotion-chip-count">
+                  {meetingEmotionCounts.get(emotion.key)}
+                </span>
+              ) : null}
+            </button>
+          ))}
         </div>
       </section>
 

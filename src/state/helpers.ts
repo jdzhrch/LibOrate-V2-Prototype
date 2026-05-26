@@ -188,14 +188,31 @@ export function buildEmotionSnapshot(
   }))
 }
 
-export function buildMeetingSnapshot(checkIns: CheckInRecord[]) {
+export function buildMeetingSnapshot(checkIns: CheckInRecord[], emotionLibrary: EmotionConfig[]) {
+  const emotionMap = buildEmotionMap(emotionLibrary)
   const rows = groupCheckInsByMeeting(checkIns)
-    .map((group) => ({
-      key: group.meeting.id,
-      label: group.meeting.title,
-      count: group.records.length,
-      emotionCount: new Set(group.records.map((record) => record.emotionKey)).size,
-    }))
+    .map((group) => {
+      const countsMap = new Map<string, { emotion: EmotionConfig; count: number }>()
+      for (const record of group.records) {
+        const emotion = getEmotionForRecord(record, emotionMap)
+        const current = countsMap.get(record.emotionKey)
+        if (current) {
+          current.count += 1
+        } else {
+          countsMap.set(record.emotionKey, { emotion, count: 1 })
+        }
+      }
+      
+      const distribution = [...countsMap.values()].sort((a, b) => b.count - a.count)
+
+      return {
+        key: group.meeting.id,
+        label: group.meeting.title,
+        count: group.records.length,
+        emotionCount: new Set(group.records.map((record) => record.emotionKey)).size,
+        distribution,
+      }
+    })
     .sort((left, right) => right.count - left.count)
   const maxCount = rows.reduce((largest, row) => Math.max(largest, row.count), 0)
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { getEmotionSummaryLabel } from '../data/emotions'
 import { countRecordsByEmotion } from '../state/helpers'
 import type { CheckInRecord, EmotionConfig, MeetingInfo } from '../types'
-import { formatShortTimestamp } from '../utils/formatting'
+import { formatLongDate, formatShortTimestamp } from '../utils/formatting'
 
 type MeetingGroupProps = {
   emotionLibrary: EmotionConfig[]
@@ -20,7 +20,7 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
     <article className="meeting-group-card">
       <header className="meeting-group-header">
         <div>
-          <p className="meeting-time-label">{meeting.startTime}</p>
+          <p className="meeting-time-label">{latestRecord ? formatLongDate(latestRecord.createdAt) : meeting.startTime}</p>
           <h3>{meeting.title}</h3>
         </div>
         <button

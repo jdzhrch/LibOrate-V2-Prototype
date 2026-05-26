@@ -17,6 +17,7 @@ describe('App workspace sync', () => {
       </MemoryRouter>,
     )
 
+    await user.click(screen.getByRole('link', { name: 'Web' }))
     await user.click(screen.getByRole('tab', { name: 'Emotions setting' }))
     expect(screen.queryByRole('tab', { name: 'Phrases' })).not.toBeInTheDocument()
     expect(screen.queryByText('Choose what fits this moment.')).not.toBeInTheDocument()

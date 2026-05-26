@@ -39,28 +39,6 @@ export function MeetingHistoryPanel() {
       </div>
 
       <div className="history-toolbar">
-        <div className="history-view-row">
-          <div className="segmented-control" role="tablist" aria-label="Pattern views">
-            <button
-              aria-selected={viewMode === 'meeting'}
-              className={viewMode === 'meeting' ? 'segment-button segment-button-active' : 'segment-button'}
-              onClick={() => setViewMode('meeting')}
-              role="tab"
-              type="button"
-            >
-              Meetings
-            </button>
-            <button
-              aria-selected={viewMode === 'emotion'}
-              className={viewMode === 'emotion' ? 'segment-button segment-button-active' : 'segment-button'}
-              onClick={() => setViewMode('emotion')}
-              role="tab"
-              type="button"
-            >
-              Emotions
-            </button>
-          </div>
-        </div>
 
         <div className="filter-row" role="group" aria-label="Date filters">
           <button
@@ -91,39 +69,40 @@ export function MeetingHistoryPanel() {
           >
             Custom
           </button>
+
+          {filterMode === 'custom' ? (
+            <div className="custom-date-inline-group">
+              <label className="sr-only" htmlFor="start-date">
+                Start date
+              </label>
+              <input
+                className="field-input custom-date-input"
+                id="start-date"
+                onChange={(event) => setStartDate(event.target.value)}
+                type="date"
+                value={startDate}
+              />
+              <span className="custom-date-separator">to</span>
+              <label className="sr-only" htmlFor="end-date">
+                End date
+              </label>
+              <input
+                className="field-input custom-date-input"
+                id="end-date"
+                onChange={(event) => setEndDate(event.target.value)}
+                type="date"
+                value={endDate}
+              />
+            </div>
+          ) : null}
         </div>
-
-        {filterMode === 'custom' ? (
-          <div className="custom-date-row">
-            <label className="field-label" htmlFor="start-date">
-              Start date
-            </label>
-            <input
-              className="field-input"
-              id="start-date"
-              onChange={(event) => setStartDate(event.target.value)}
-              type="date"
-              value={startDate}
-            />
-
-            <label className="field-label" htmlFor="end-date">
-              End date
-            </label>
-            <input
-              className="field-input"
-              id="end-date"
-              onChange={(event) => setEndDate(event.target.value)}
-              type="date"
-              value={endDate}
-            />
-          </div>
-        ) : null}
       </div>
 
       <CheckInOverview
         checkIns={filteredCheckIns}
         emotionLibrary={emotionLibrary}
         viewMode={viewMode}
+        onViewModeChange={setViewMode}
       />
 
       <div className="meeting-group-list">

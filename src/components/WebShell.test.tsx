@@ -13,7 +13,7 @@ describe('WebShell', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-04-02T16:00:00.000Z'))
 
-    render(
+    const { container } = render(
       <PrototypeProvider
         initialState={{
           selectedMeetingId: 'design-review',
@@ -76,11 +76,12 @@ describe('WebShell', () => {
     expect(screen.getByRole('tab', { name: 'Letters' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Emotions setting' })).toBeInTheDocument()
     expect(screen.queryByRole('tab', { name: 'Check-ins' })).not.toBeInTheDocument()
-    expect(screen.getByRole('tablist', { name: 'Pattern views' }).closest('.history-toolbar')).not.toBeNull()
+    expect(screen.getByRole('tablist', { name: 'Pattern views' }).closest('.analytics-card')).not.toBeNull()
     expect(screen.getByRole('heading', { name: 'Patterns' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Meetings' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
     expect(screen.getByText('Meeting pressure map')).toBeInTheDocument()
+    expect(container.querySelectorAll('.emotion-bar-segment').length).toBeGreaterThan(0)
     expect(screen.getByText('Support timeline')).toBeInTheDocument()
     expect(screen.getByText('Daily support moments')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Support timeline bar chart' })).toBeInTheDocument()

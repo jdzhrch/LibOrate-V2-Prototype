@@ -253,6 +253,29 @@ export function PhraseLibraryPanel() {
         <div className="metric-pill">{activeEmotions.length} available</div>
       </header>
 
+      <div className="phrase-available-header">
+        <h3>Available in meetings</h3>
+        <div className="break-chip-row" aria-hidden="true">
+          {activeEmotions.map((emotion) => (
+            <span className="break-mini-chip" data-color={emotion.colorToken} key={emotion.key}>
+              {emotion.chipLabel}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="phrase-library-grid">
+        {activeEmotions.map((emotion) => (
+          <PhraseEditorCard
+            canHide={activeEmotions.length > 1}
+            emotion={emotion}
+            key={emotion.key}
+          />
+        ))}
+      </div>
+
+      <AddEmotionCard onAdd={addEmotion} />
+
       <details className="panel-drawer break-archive-drawer">
         <summary className="panel-drawer-summary">
           <div className="letter-history-header">
@@ -294,29 +317,6 @@ export function PhraseLibraryPanel() {
           )}
         </div>
       </details>
-
-      <AddEmotionCard onAdd={addEmotion} />
-
-      <div className="phrase-available-header">
-        <h3>Available in meetings</h3>
-        <div className="break-chip-row" aria-hidden="true">
-          {activeEmotions.map((emotion) => (
-            <span className="break-mini-chip" data-color={emotion.colorToken} key={emotion.key}>
-              {emotion.chipLabel}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="phrase-library-grid">
-        {activeEmotions.map((emotion) => (
-          <PhraseEditorCard
-            canHide={activeEmotions.length > 1}
-            emotion={emotion}
-            key={emotion.key}
-          />
-        ))}
-      </div>
     </section>
   )
 }

@@ -44,40 +44,6 @@ export function LetterToSelfPanel() {
         <div className="metric-pill">{letters.length} letters</div>
       </header>
 
-      <details className="panel-drawer letter-history-drawer">
-        <summary className="panel-drawer-summary">
-          <div className="letter-history-header">
-            <div>
-              <h3>Saved letters</h3>
-              <p className="supporting-copy">Notes you can revisit whenever you need them.</p>
-            </div>
-            <div className="metric-pill">{letters.length} saved</div>
-          </div>
-          <span aria-hidden="true" className="panel-drawer-icon" />
-        </summary>
-        <div className="letter-list">
-          {letters.map((letter) => {
-            const linkedMeeting = meetings.find((meeting) => meeting.id === letter.linkedMeetingId)
-
-            return (
-              <article className="letter-entry-card" key={letter.id}>
-                <div className="record-meta">
-                  <strong>{letter.title}</strong>
-                  <span>{formatLongDate(letter.createdAt)}</span>
-                </div>
-                <p>{letter.body}</p>
-                <div className="letter-badges">
-                  <span className="meeting-summary-pill">{getLetterMode(letter.mode).title}</span>
-                  <span className="meeting-summary-pill">
-                    {linkedMeeting ? linkedMeeting.title : 'Not tied to a meeting'}
-                  </span>
-                </div>
-              </article>
-            )
-          })}
-        </div>
-      </details>
-
       <div className="letter-form-card">
         <div className="letter-form-heading">
           <h3>Write a letter</h3>
@@ -175,6 +141,40 @@ export function LetterToSelfPanel() {
           </button>
         </div>
       </div>
+
+      <details className="panel-drawer letter-history-drawer">
+        <summary className="panel-drawer-summary">
+          <div className="letter-history-header">
+            <div>
+              <h3>Saved letters</h3>
+              <p className="supporting-copy">Notes you can revisit whenever you need them.</p>
+            </div>
+            <div className="metric-pill">{letters.length} saved</div>
+          </div>
+          <span aria-hidden="true" className="panel-drawer-icon" />
+        </summary>
+        <div className="letter-list">
+          {letters.map((letter) => {
+            const linkedMeeting = meetings.find((meeting) => meeting.id === letter.linkedMeetingId)
+
+            return (
+              <article className="letter-entry-card" key={letter.id}>
+                <div className="record-meta">
+                  <strong>{letter.title}</strong>
+                  <span>{formatLongDate(letter.createdAt)}</span>
+                </div>
+                <p>{letter.body}</p>
+                <div className="letter-badges">
+                  <span className="meeting-summary-pill">{getLetterMode(letter.mode).title}</span>
+                  <span className="meeting-summary-pill">
+                    {linkedMeeting ? linkedMeeting.title : 'Not tied to a meeting'}
+                  </span>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </details>
     </section>
   )
 }

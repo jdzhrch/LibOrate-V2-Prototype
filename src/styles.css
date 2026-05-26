@@ -539,16 +539,6 @@ a {
     color 180ms ease;
 }
 
-.zoom-emotion-field {
-  border-radius: 22px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.22);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-    0 12px 24px rgba(80, 92, 140, 0.08);
-  backdrop-filter: blur(12px);
-}
-
 .zoom-note-shell {
   padding: 16px 18px;
   border-radius: 20px;
@@ -935,7 +925,13 @@ a {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  align-items: baseline;
+  align-items: center;
+}
+
+.analytics-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .analytics-header h3 {
@@ -989,10 +985,22 @@ a {
 }
 
 .emotion-bar-fill {
-  display: block;
+  display: flex;
   height: 100%;
   border-radius: inherit;
   background: var(--emotion-accent);
+  overflow: hidden;
+}
+
+.emotion-bar-segment {
+  height: 100%;
+  background: var(--emotion-accent);
+  transition: opacity 120ms ease;
+}
+
+.emotion-bar-segment:hover {
+  opacity: 0.85;
+  cursor: pointer;
 }
 
 .emotion-snapshot-count {
@@ -1052,11 +1060,91 @@ a {
   position: relative;
   z-index: 1;
   min-height: 196px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
-  gap: 12px;
+  display: flex;
+  gap: 14px;
   align-items: end;
   height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 16px 6px;
+  scroll-behavior: smooth;
+  mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+}
+
+.timeline-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.timeline-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-strip::-webkit-scrollbar-thumb {
+  background: rgba(144, 182, 249, 0.24);
+  border-radius: 99px;
+}
+
+.timeline-strip::-webkit-scrollbar-thumb:hover {
+  background: rgba(144, 182, 249, 0.45);
+}
+
+.timeline-strip:focus-visible {
+  outline: 2px solid #6f9ef6;
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.timeline-strip:focus {
+  outline: none;
+}
+
+.timeline-scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(218, 226, 238, 0.8);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #31405a;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(84, 96, 128, 0.12);
+  cursor: pointer;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    background 200ms ease;
+  pointer-events: auto;
+}
+
+.timeline-scroll-btn-left {
+  left: 8px;
+}
+
+.timeline-scroll-btn-right {
+  right: 8px;
+}
+
+.timeline-scroll-btn:hover {
+  background: rgba(255, 255, 255, 0.96);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.timeline-scroll-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.timeline-scroll-btn[data-visible='false'] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .timeline-column {
@@ -1065,6 +1153,8 @@ a {
   justify-items: center;
   grid-template-rows: auto 1fr auto;
   gap: 8px;
+  flex: 0 0 56px;
+  width: 56px;
 }
 
 .timeline-value {
@@ -1168,11 +1258,36 @@ a {
   box-shadow: 0 10px 24px rgba(84, 96, 128, 0.08);
 }
 
-.custom-date-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  align-items: end;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.custom-date-inline-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+}
+
+.custom-date-input {
+  max-width: 140px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.custom-date-separator {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .meeting-group-card {
@@ -1962,6 +2077,7 @@ a {
 .phrase-editor-card-open {
   box-shadow: 0 18px 32px rgba(84, 96, 128, 0.12);
   border-color: rgba(126, 150, 197, 0.6);
+  grid-column: 1 / -1;
 }
 
 .phrase-card-footer {

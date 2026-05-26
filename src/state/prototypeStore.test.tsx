@@ -5,7 +5,7 @@ import { sharedCommonHumanity } from '../data/emotions'
 import { buildCheckInRecord, buildTimelinePoints, filterCheckInsByDateRange } from './helpers'
 import { PrototypeProvider, usePrototypeStore } from './prototypeStore'
 
-const STORAGE_KEY = 'liborate-prototype-state'
+const STORAGE_KEY = 'liborate-prototype-state-v4'
 
 afterEach(() => {
   vi.useRealTimers()

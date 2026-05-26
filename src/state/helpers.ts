@@ -67,12 +67,52 @@ export function buildCheckInRecord(args: {
 }
 
 export function groupCheckInsByMeeting(checkIns: CheckInRecord[]) {
-  return meetings
-    .map((meeting) => ({
-      meeting,
-      records: checkIns.filter((checkIn) => checkIn.meetingId === meeting.id),
-    }))
-    .filter((group) => group.records.length > 0)
+  const groupsMap = new Map<string, { meeting: MeetingInfo; dateStr: string; records: CheckInRecord[] }>()
+
+  for (const record of checkIns) {
+    const date = new Date(record.createdAt)
+    const localDateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+      date.getDate(),
+    ).padStart(2, '0')}`
+    const key = `${record.meetingId}_${localDateStr}`
+
+    const existing = groupsMap.get(key)
+    if (existing) {
+      existing.records.push(record)
+    } else {
+      const meetingTemplate = meetings.find((m) => m.id === record.meetingId) ?? {
+        id: record.meetingId,
+        title: record.meetingTitle || 'Meeting',
+        startTime: record.meetingStartTime || '',
+        contextNote: '',
+      }
+      
+      groupsMap.set(key, {
+        meeting: {
+          ...meetingTemplate,
+          id: key,
+        },
+        dateStr: localDateStr,
+        records: [record],
+      })
+    }
+  }
+
+  return [...groupsMap.values()]
+    .map((group) => {
+      const sortedRecords = [...group.records].sort(
+        (left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime()
+      )
+      return {
+        meeting: group.meeting,
+        records: sortedRecords,
+      }
+    })
+    .sort((left, right) => {
+      const leftTime = new Date(left.records[0]?.createdAt ?? 0).getTime()
+      const rightTime = new Date(right.records[0]?.createdAt ?? 0).getTime()
+      return rightTime - leftTime
+    })
 }
 
 export function groupCheckInsByEmotion(
@@ -190,7 +230,27 @@ export function buildEmotionSnapshot(
 
 export function buildMeetingSnapshot(checkIns: CheckInRecord[], emotionLibrary: EmotionConfig[]) {
   const emotionMap = buildEmotionMap(emotionLibrary)
-  const rows = groupCheckInsByMeeting(checkIns)
+  const groupsMap = new Map<string, { meeting: MeetingInfo; records: CheckInRecord[] }>()
+
+  for (const record of checkIns) {
+    const existing = groupsMap.get(record.meetingId)
+    if (existing) {
+      existing.records.push(record)
+    } else {
+      const meetingTemplate = meetings.find((m) => m.id === record.meetingId) ?? {
+        id: record.meetingId,
+        title: record.meetingTitle || 'Meeting',
+        startTime: record.meetingStartTime || '',
+        contextNote: '',
+      }
+      groupsMap.set(record.meetingId, {
+        meeting: meetingTemplate,
+        records: [record],
+      })
+    }
+  }
+
+  const rows = [...groupsMap.values()]
     .map((group) => {
       const countsMap = new Map<string, { emotion: EmotionConfig; count: number }>()
       for (const record of group.records) {

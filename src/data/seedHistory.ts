@@ -51,75 +51,78 @@ function buildSeedCheckIn(args: {
 }
 
 export const seedCheckIns: CheckInRecord[] = [
+  // 1. Tuesday Design Review (6 check-ins on April 2nd, demonstrating all spacing types: standard, medium, large)
   buildSeedCheckIn({
-    id: 'seed-design-review-rushing-2026-04-02',
+    id: 'seed-design-review-6-frustration',
     meetingId: 'design-review',
-    emotionKey: 'anxiety',
-    phraseIndex: 0,
-    createdAt: '2026-04-02T19:36:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-design-review-stuck-2026-04-02',
-    meetingId: 'design-review',
-    emotionKey: 'avoidance',
-    phraseIndex: 1,
-    createdAt: '2026-04-02T19:32:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-design-review-nervous-2026-04-02',
-    meetingId: 'design-review',
-    emotionKey: 'fear',
-    phraseIndex: 0,
-    createdAt: '2026-04-02T19:28:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-client-kickoff-ashamed-2026-03-28',
-    meetingId: 'client-kickoff',
-    emotionKey: 'shame-embarrassment',
-    phraseIndex: 0,
-    createdAt: '2026-03-28T13:18:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-client-kickoff-nervous-2026-03-28',
-    meetingId: 'client-kickoff',
-    emotionKey: 'fear',
-    phraseIndex: 2,
-    createdAt: '2026-03-28T13:12:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-practice-circle-steadying-2026-03-14',
-    meetingId: 'practice-circle',
-    emotionKey: 'isolation',
-    phraseIndex: 1,
-    createdAt: '2026-03-14T16:05:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-practice-circle-stuck-2026-03-14',
-    meetingId: 'practice-circle',
-    emotionKey: 'avoidance',
-    phraseIndex: 2,
-    createdAt: '2026-03-14T15:58:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-client-kickoff-rushing-2026-02-21',
-    meetingId: 'client-kickoff',
     emotionKey: 'guilt-frustration',
-    phraseIndex: 2,
-    createdAt: '2026-02-21T14:05:00.000Z',
-  }),
-  buildSeedCheckIn({
-    id: 'seed-practice-circle-nervous-2026-02-12',
-    meetingId: 'practice-circle',
-    emotionKey: 'anxiety',
     phraseIndex: 1,
-    createdAt: '2026-02-12T10:20:00.000Z',
+    createdAt: '2026-04-02T16:35:00.000Z', // +13 min gap (Medium solid line)
   }),
   buildSeedCheckIn({
-    id: 'seed-design-review-ashamed-2026-02-04',
+    id: 'seed-design-review-5-isolation',
+    meetingId: 'design-review',
+    emotionKey: 'isolation',
+    phraseIndex: 0,
+    createdAt: '2026-04-02T16:22:00.000Z', // +2 min gap (Standard solid line)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-design-review-4-hopelessness',
     meetingId: 'design-review',
     emotionKey: 'hopelessness',
-    phraseIndex: 2,
-    createdAt: '2026-02-04T09:45:00.000Z',
+    phraseIndex: 1,
+    createdAt: '2026-04-02T16:20:00.000Z', // +35 min gap (Large dashed line with "+35 min" label)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-design-review-3-fear',
+    meetingId: 'design-review',
+    emotionKey: 'fear',
+    phraseIndex: 0,
+    createdAt: '2026-04-02T15:45:00.000Z', // +10 min gap (Medium solid line)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-design-review-2-avoidance',
+    meetingId: 'design-review',
+    emotionKey: 'avoidance',
+    phraseIndex: 1,
+    createdAt: '2026-04-02T15:35:00.000Z', // +3 min gap (Standard solid line)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-design-review-1-anxiety',
+    meetingId: 'design-review',
+    emotionKey: 'anxiety',
+    phraseIndex: 0,
+    createdAt: '2026-04-02T15:32:00.000Z', // Oldest item in Design Review session
+  }),
+
+  // 2. Client Kickoff (4 check-ins on March 28th, demonstrating standard and large gaps)
+  buildSeedCheckIn({
+    id: 'seed-client-kickoff-4-frustration',
+    meetingId: 'client-kickoff',
+    emotionKey: 'guilt-frustration',
+    phraseIndex: 0,
+    createdAt: '2026-03-28T09:43:00.000Z', // +3 min gap (Standard solid line)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-client-kickoff-3-shame',
+    meetingId: 'client-kickoff',
+    emotionKey: 'shame-embarrassment',
+    phraseIndex: 1,
+    createdAt: '2026-03-28T09:40:00.000Z', // +34 min gap (Large dashed line with "+34 min" label)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-client-kickoff-2-anxiety',
+    meetingId: 'client-kickoff',
+    emotionKey: 'anxiety',
+    phraseIndex: 0,
+    createdAt: '2026-03-28T09:06:00.000Z', // +4 min gap (Standard solid line)
+  }),
+  buildSeedCheckIn({
+    id: 'seed-client-kickoff-1-fear',
+    meetingId: 'client-kickoff',
+    emotionKey: 'fear',
+    phraseIndex: 0,
+    createdAt: '2026-03-28T09:02:00.000Z', // Oldest item in Client Kickoff session
   }),
 ]
 

@@ -1043,19 +1043,6 @@ a {
   overflow: hidden;
 }
 
-.timeline-gridlines {
-  position: absolute;
-  inset: 12px 12px 36px;
-  display: grid;
-  align-content: space-between;
-  pointer-events: none;
-}
-
-.timeline-gridlines span {
-  display: block;
-  border-top: 1px dashed rgba(155, 171, 199, 0.38);
-}
-
 .timeline-strip {
   position: relative;
   z-index: 1;
@@ -1356,6 +1343,54 @@ a {
   gap: 8px;
 }
 
+/* --- Interactive Emotion Filter Tokens --- */
+.emotion-token-row button.emotion-token {
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 1px solid rgba(214, 222, 233, 0.94);
+  border-radius: 999px;
+  padding: 8px 10px 8px 12px;
+  background: rgba(250, 252, 255, 0.92);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.emotion-token-row button.emotion-token:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 8px rgba(100, 116, 139, 0.08);
+  border-color: rgba(144, 182, 249, 0.5);
+}
+
+.emotion-token-row button.emotion-token:focus-visible {
+  outline: 2px solid #6f9ef6;
+  outline-offset: 2px;
+}
+
+/* Active Filter Highlight */
+.emotion-token-row button.emotion-token.active {
+  border-color: var(--emotion-accent);
+  background: color-mix(in srgb, var(--emotion-soft) 40%, rgba(255, 255, 255, 0.95));
+  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.1), inset 0 0 0 1px var(--emotion-accent);
+}
+
+/* Dimmed Inactive State */
+.emotion-token-row button.emotion-token[data-dimmed="true"] {
+  opacity: 0.45;
+  filter: grayscale(40%);
+  transform: scale(0.96);
+}
+
+.emotion-token-row button.emotion-token[data-dimmed="true"]:hover {
+  opacity: 0.7;
+  filter: grayscale(15%);
+  transform: scale(0.98);
+}
+
+/* Static token container fallback */
 .emotion-token {
   border: 1px solid rgba(214, 222, 233, 0.94);
   border-radius: 999px;
@@ -1412,6 +1447,240 @@ a {
 .record-card span:last-child {
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+/* --- Horizontal Scrollable Timeline --- */
+.horizontal-timeline-container {
+  margin-top: 16px;
+  border: 1px solid rgba(219, 226, 237, 0.6);
+  border-radius: 16px;
+  background: rgba(250, 252, 255, 0.35);
+  overflow: hidden;
+  position: relative;
+  padding: 8px 0;
+}
+
+.timeline-scroll-area {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 12px 12px;
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar Styles */
+.timeline-scroll-area::-webkit-scrollbar {
+  height: 4px;
+}
+
+.timeline-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(144, 182, 249, 0.24);
+  border-radius: 99px;
+}
+
+.timeline-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(144, 182, 249, 0.45);
+}
+
+.timeline-scroll-track {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+  padding: 16px 8px;
+  min-width: 100%;
+  width: max-content;
+}
+
+/* Reset Demo Data button styling */
+.reset-data-btn {
+  font-size: 0.8rem;
+  color: var(--muted);
+  border: 1px dashed rgba(219, 226, 237, 0.8) !important;
+  background: rgba(250, 252, 255, 0.4) !important;
+  transition: all 0.2s ease;
+}
+
+.reset-data-btn:hover {
+  color: #e53e3e !important;
+  border-color: rgba(229, 62, 62, 0.4) !important;
+  background: rgba(255, 245, 245, 0.8) !important;
+  transform: translateY(-1px);
+}
+
+
+/* Modular timeline line inside node */
+.timeline-node-line {
+  position: absolute;
+  top: 16px; /* Centered exactly at 50% of the 32px node */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(219, 226, 237, 0.6);
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+/* Spacer between timeline items */
+.timeline-gap-spacer {
+  display: flex;
+  align-items: flex-start;
+  height: 32px; /* aligns with .timeline-node */
+  flex-shrink: 0;
+  position: relative;
+}
+
+.timeline-gap-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(219, 226, 237, 0.6);
+  margin-top: 16px; /* Centered exactly at 50% of the 32px node */
+  position: relative;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.timeline-gap-line.dashed {
+  background: rgba(219, 226, 237, 0.6) !important;
+  border-top: none;
+  height: 2px;
+}
+
+.timeline-gap-label {
+  position: absolute;
+  top: -8px; /* center-aligned vertically with the line */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f8fafc; /* matches background to mask the line */
+  padding: 0 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-radius: 4px;
+  border: 1px solid rgba(219, 226, 237, 0.7);
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  z-index: 2;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Axis Dot Node */
+.timeline-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  position: relative;
+}
+
+.timeline-axis-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--emotion-accent, #7d9fbf);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(219, 226, 237, 0.9), 0 2px 4px rgba(100, 116, 139, 0.15);
+  z-index: 3;
+  margin-top: 7px;
+}
+
+.timeline-axis-connector {
+  width: 1px;
+  height: 8px;
+  background: rgba(219, 226, 237, 0.8);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Static Card Design (No details accordion, just static cards) */
+.timeline-item .record-card {
+  width: 100%;
+  border: 1px solid rgba(219, 226, 237, 0.7);
+  border-left: 4px solid var(--emotion-accent, var(--border-color));
+  border-radius: 10px;
+  background: var(--card-bg, #ffffff);
+  box-shadow: 0 1.5px 4px rgba(100, 116, 139, 0.03);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.timeline-item .record-card:hover {
+  box-shadow: 0 4px 8px rgba(100, 116, 139, 0.06);
+  border-color: rgba(219, 226, 237, 0.9);
+}
+
+.timeline-item .record-card-time {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Navigation buttons styled specifically for the timeline component */
+.horizontal-timeline-container .timeline-scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(218, 226, 238, 0.8);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #5a6e85;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.horizontal-timeline-container .timeline-scroll-btn:hover {
+  background: #ffffff;
+  border-color: rgba(144, 182, 249, 0.6);
+  color: var(--primary);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.horizontal-timeline-container .timeline-scroll-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.horizontal-timeline-container .timeline-scroll-btn-left {
+  left: 8px;
+}
+
+.horizontal-timeline-container .timeline-scroll-btn-right {
+  right: 8px;
+}
+
+.horizontal-timeline-container .timeline-scroll-btn[data-visible='false'] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .record-meta {

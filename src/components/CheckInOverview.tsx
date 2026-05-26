@@ -182,11 +182,6 @@ export function CheckInOverview({
               <span>0</span>
             </div>
             <div className="timeline-plot">
-              <div aria-hidden="true" className="timeline-gridlines">
-                <span />
-                <span />
-                <span />
-              </div>
               <button
                 type="button"
                 className="timeline-scroll-btn timeline-scroll-btn-left"

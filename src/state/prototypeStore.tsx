@@ -20,7 +20,7 @@ import type {
   PhraseLibraryInput,
 } from '../types'
 
-const STORAGE_KEY = 'liborate-prototype-state'
+const STORAGE_KEY = 'liborate-prototype-state-v4'
 const RUNAWAY_TODAY_CHECKIN_THRESHOLD = 50
 
 const defaultState: PersistedPrototypeState = {
@@ -126,7 +126,11 @@ function loadPersistedState(): PersistedPrototypeState {
 
     const parsed = JSON.parse(raw) as PersistedPrototypeState
     const now = new Date()
-    const sanitizedStoredCheckIns = sanitizeStoredCheckIns(parsed.checkIns, now)
+    const validSeedIds = new Set(defaultState.checkIns.map((item) => item.id))
+    const filteredStoredCheckIns = (parsed.checkIns ?? []).filter(
+      (item) => !item.id.startsWith('seed-') || validSeedIds.has(item.id)
+    )
+    const sanitizedStoredCheckIns = sanitizeStoredCheckIns(filteredStoredCheckIns, now)
 
     return {
       ...defaultState,

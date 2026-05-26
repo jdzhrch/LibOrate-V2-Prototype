@@ -30,12 +30,26 @@ export function MeetingHistoryPanel() {
     setFilterMode(nextMode)
   }
 
+  const handleResetData = () => {
+    if (window.confirm('Are you sure you want to reset all prototype data to default seed data?')) {
+      window.localStorage.removeItem('liborate-prototype-state-v4')
+      window.location.reload()
+    }
+  }
+
   return (
     <section className="surface-card web-panel-block patterns-panel" data-view-mode={viewMode}>
       <div className="panel-header">
         <div>
           <h2>Patterns</h2>
         </div>
+        <button
+          className="secondary-pill secondary-pill-quiet reset-data-btn"
+          onClick={handleResetData}
+          type="button"
+        >
+          Reset Demo Data
+        </button>
       </div>
 
       <div className="history-toolbar">

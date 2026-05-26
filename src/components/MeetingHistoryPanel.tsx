@@ -38,7 +38,7 @@ export function MeetingHistoryPanel() {
   }
 
   return (
-    <section className="surface-card web-panel-block patterns-panel" data-view-mode={viewMode}>
+    <section className="web-panel-block patterns-panel" data-view-mode={viewMode}>
       <div className="panel-header">
         <div>
           <h2>Patterns</h2>
@@ -112,12 +112,20 @@ export function MeetingHistoryPanel() {
         </div>
       </div>
 
-      <CheckInOverview
-        checkIns={filteredCheckIns}
-        emotionLibrary={emotionLibrary}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
+      <details className="analytics-drawer">
+        <summary className="analytics-drawer-summary">
+          <span className="analytics-drawer-title">📊 View Insights & Analytics Charts</span>
+          <span aria-hidden="true" className="panel-drawer-icon" />
+        </summary>
+        <div className="analytics-drawer-content">
+          <CheckInOverview
+            checkIns={filteredCheckIns}
+            emotionLibrary={emotionLibrary}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+          />
+        </div>
+      </details>
 
       <div className="meeting-group-list">
         {!hasResults ? <div className="empty-record">No support moments in this range yet.</div> : null}

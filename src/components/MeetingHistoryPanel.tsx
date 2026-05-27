@@ -138,7 +138,7 @@ export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps)
       ) : (
         <div className="timeline-section">
           <div className="meeting-group-list">
-            {!hasResults ? <div className="empty-record">No support moments in this range yet.</div> : null}
+            {!hasResults ? <div className="empty-record">No check-ins in this range yet.</div> : null}
 
             {viewMode === 'meeting'
               ? groups.map((group) => (

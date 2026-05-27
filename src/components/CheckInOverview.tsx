@@ -86,7 +86,7 @@ export function CheckInOverview({
   const timelineMidpoint = timelineMax <= 1 ? 1 : Math.ceil(timelineMax / 2)
   const timelineGranularity = timelinePoints[0]?.granularity ?? 'day'
   const timelineCaption =
-    timelineGranularity === 'week' ? 'Weekly support moments' : 'Daily support moments'
+    timelineGranularity === 'week' ? 'Weekly check-ins' : 'Daily check-ins'
   const timelineCountLabel =
     timelineGranularity === 'week'
       ? `${timelinePoints.length} weeks`
@@ -171,11 +171,11 @@ export function CheckInOverview({
 
         <section className="analytics-card">
           <div className="analytics-header">
-            <h3>Support timeline</h3>
+            <h3>Check-in timeline</h3>
             <span>{timelineCountLabel}</span>
           </div>
           <p className="timeline-caption">{timelineCaption}</p>
-          <div className="timeline-chart" role="img" aria-label="Support timeline bar chart">
+          <div className="timeline-chart" role="img" aria-label="Check-in timeline bar chart">
             <div aria-hidden="true" className="timeline-scale">
               <span>{timelineMax}</span>
               <span>{timelineMidpoint}</span>
@@ -196,7 +196,7 @@ export function CheckInOverview({
                 className="timeline-strip"
                 tabIndex={0}
                 role="region"
-                aria-label="Support timeline detail scroll"
+                aria-label="Check-in timeline detail scroll"
               >
                 {timelinePoints.map((point) => (
                   <div className="timeline-column" key={point.label}>

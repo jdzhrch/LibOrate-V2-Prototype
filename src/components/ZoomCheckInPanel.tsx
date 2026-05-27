@@ -74,19 +74,19 @@ export function ZoomCheckInPanel() {
             data-color={activeEmotion?.colorToken}
             className="surface-card zoom-checkin-card zoom-card-common-humanity zoom-checkin-card-live zoom-checkin-card-revealed"
           >
-            <p className="zoom-card-eyebrow">Take this in</p>
+            <p className="zoom-card-eyebrow">Common Humanity</p>
             <div className="zoom-note-shell">
               <p className="zoom-card-body">{activeRecord.commonHumanity}</p>
             </div>
           </section>
-
+ 
           <section
             aria-label="Self-kindness"
             data-state="active"
             data-color={activeEmotion?.colorToken}
             className="surface-card zoom-checkin-card zoom-card-self-kindness zoom-checkin-card-live zoom-checkin-card-revealed"
           >
-            <p className="zoom-card-eyebrow">Try this with me</p>
+            <p className="zoom-card-eyebrow">Self-Kindness</p>
             <div className="zoom-kindness-stage">
               <p className="zoom-card-body">{activeRecord.kindnessPhrase}</p>
             </div>

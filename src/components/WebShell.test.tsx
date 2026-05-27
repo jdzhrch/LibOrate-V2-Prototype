@@ -87,11 +87,11 @@ describe('WebShell', () => {
     expect(patternTabs.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
     expect(screen.getByText('Meeting pressure map')).toBeInTheDocument()
     expect(container.querySelectorAll('.emotion-bar-segment').length).toBeGreaterThan(0)
-    expect(screen.getByText('Support timeline')).toBeInTheDocument()
-    expect(screen.getByText('Daily support moments')).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'Support timeline bar chart' })).toBeInTheDocument()
+    expect(screen.getByText('Check-in timeline')).toBeInTheDocument()
+    expect(screen.getByText('Daily check-ins')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Check-in timeline bar chart' })).toBeInTheDocument()
     expect(screen.getByText('What stands out')).toBeInTheDocument()
-    expect(screen.getByText('Highest-support meeting')).toBeInTheDocument()
+    expect(screen.getByText('Meeting with most check-ins')).toBeInTheDocument()
     expect(screen.queryByText('Most frequent emotion')).not.toBeInTheDocument()
 
     // Meetings list should NOT be here (it's on History page)
@@ -100,8 +100,8 @@ describe('WebShell', () => {
     // Toggle view mode on Patterns page to see Emotion pattern map
     fireEvent.click(patternTabs.getByRole('tab', { name: 'Emotions' }))
     expect(screen.getByText('Emotion pattern map')).toBeInTheDocument()
-    expect(screen.getByText('Most repeated state')).toBeInTheDocument()
-    expect(screen.queryByText('Highest-support meeting')).not.toBeInTheDocument()
+    expect(screen.getByText('Most repeated emotion')).toBeInTheDocument()
+    expect(screen.queryByText('Meeting with most check-ins')).not.toBeInTheDocument()
 
     // 2. Switch to History page (Timeline logs)
     fireEvent.click(webTabs.getByRole('tab', { name: 'History' }))
@@ -169,7 +169,7 @@ describe('WebShell', () => {
     expect(screen.getByLabelText('Related meeting')).toBeInTheDocument()
     expect(screen.queryByLabelText('Meeting link')).not.toBeInTheDocument()
     expect(screen.getByRole('option', { name: 'Not tied to a meeting' })).toBeInTheDocument()
-    expect(screen.getByText('Choose a reflection frame')).toBeInTheDocument()
+    expect(screen.getByText('Select a prompt template to guide your reflection note')).toBeInTheDocument()
 
     const letterFormCard = container.querySelector('.letter-form-card')
 

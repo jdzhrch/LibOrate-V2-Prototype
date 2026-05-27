@@ -82,7 +82,7 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
           <header className="slideout-header">
             <div>
               <h3>Edit {emotion.chipLabel}</h3>
-              <p className="supporting-copy">Customize support phrases for this emotion</p>
+              <p className="supporting-copy">Customize the self-compassion phrases you see during check-ins.</p>
             </div>
             <button
               type="button"
@@ -223,7 +223,7 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
           <header className="slideout-header">
             <div>
               <h3>Add emotion</h3>
-              <p className="supporting-copy">Create a new custom emotion for check-ins</p>
+              <p className="supporting-copy">Add a new button to your Zoom check-in panel with custom support phrases.</p>
             </div>
             <button
               type="button"
@@ -318,7 +318,7 @@ export function PhraseLibraryPanel() {
     <section className="letter-panel break-panel">
       <header className="panel-header">
         <div>
-          <p className="section-label">In-meeting support</p>
+          <p className="section-label">Zoom check-in templates</p>
           <h2>Emotions</h2>
           <p className="supporting-copy">
             Customize the self-compassion phrases you see during check-ins. Rewrite the support text for any emotion below.
@@ -343,7 +343,7 @@ export function PhraseLibraryPanel() {
             <div>
               <h3>Hidden emotions</h3>
               <p className="supporting-copy">
-                These stay out of the list until you want them back.
+                These emotions are hidden from your Zoom check-in options. You can restore them to your active list here.
               </p>
             </div>
             <div className="metric-pill">{archivedEmotions.length} hidden</div>

@@ -389,21 +389,21 @@ export function buildCheckInInsights(
 
     return [
       {
-        label: 'Highest-support meeting',
+        label: 'Meeting with most check-ins',
         value: busiest?.meeting.title ?? 'No data',
-        detail: busiest ? `${busiest.records.length} support moments in this range` : '',
+        detail: busiest ? `${busiest.records.length} check-ins in this range` : '',
       },
       {
         label: 'Widest emotion mix',
         value: broadestMix?.meeting.title ?? 'No data',
         detail: broadestMix
-          ? `${mixedEmotionCount} emotional states surfaced in this meeting`
+          ? `${mixedEmotionCount} emotions surfaced in this meeting`
           : '',
       },
       {
-        label: 'Most recent support burst',
+        label: 'Most recent check-in meeting',
         value: mostRecent?.meeting.title ?? 'No data',
-        detail: recentRecord ? `Latest moment landed on ${formatMonthDay(recentRecord.createdAt)}` : '',
+        detail: recentRecord ? `Latest check-in logged on ${formatMonthDay(recentRecord.createdAt)}` : '',
       },
     ]
   }
@@ -432,9 +432,9 @@ export function buildCheckInInsights(
 
   return [
     {
-      label: 'Most repeated state',
+      label: 'Most repeated emotion',
       value: topEmotion?.emotion.chipLabel ?? 'No data',
-      detail: topEmotion ? `${topEmotion.records.length} support moments in this range` : '',
+      detail: topEmotion ? `${topEmotion.records.length} check-ins in this range` : '',
     },
     {
       label: 'Across the most meetings',

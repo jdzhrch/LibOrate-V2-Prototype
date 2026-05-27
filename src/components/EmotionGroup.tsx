@@ -32,7 +32,7 @@ export function EmotionGroup({ emotion, records }: EmotionGroupProps) {
           {meetingCount} {meetingCount === 1 ? 'meeting' : 'meetings'}
         </div>
         <div className="meeting-summary-pill">
-          {records.length === 1 ? '1 support moment' : `${records.length} support moments`}
+          {records.length === 1 ? '1 check-in' : `${records.length} check-ins`}
         </div>
       </div>
 

@@ -119,10 +119,10 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
 
       <div className="group-summary-row">
         <div className="meeting-summary-pill">
-          {records.length === 0 ? 'No support moments yet' : `${records.length} support moments`}
+          {records.length === 0 ? 'No check-ins yet' : `${records.length} check-ins`}
         </div>
         <div className="meeting-summary-pill">
-          {emotionTotals.length === 1 ? '1 emotional state' : `${emotionTotals.length} emotional states`}
+          {emotionTotals.length === 1 ? '1 emotion logged' : `${emotionTotals.length} emotions logged`}
         </div>
       </div>
 
@@ -180,7 +180,7 @@ export function MeetingGroup({ emotionLibrary, meeting, records }: MeetingGroupP
             <div className="timeline-scroll-track">
               {filteredRecords.length === 0 ? (
                 <div className="empty-record">
-                  {isFiltering ? 'No records match selected filters.' : 'No support moments in this meeting yet.'}
+                  {isFiltering ? 'No check-ins match selected filters.' : 'No check-ins in this meeting yet.'}
                 </div>
               ) : (
                 // Display in chronological order (left-to-right) with elastic spacing gaps

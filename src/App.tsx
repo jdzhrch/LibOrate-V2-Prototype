@@ -124,10 +124,10 @@ function App() {
               </div>
               <div className="guide-step">
                 <strong>2. Review your Patterns & History</strong>
-                <p>Explore high-level emotional maps in **Patterns** and read the chronological timeline of support moments in **History**.</p>
+                <p>Explore high-level emotional maps in **Patterns** and read the chronological timeline of check-ins in **History**.</p>
               </div>
               <div className="guide-step">
-                <strong>3. Customize your support</strong>
+                <strong>3. Customize check-in templates</strong>
                 <p>Rewrite reflection prompts in **Letters**, or edit the self-compassion phrases for any emotion card in **Emotions**.</p>
               </div>
             </div>

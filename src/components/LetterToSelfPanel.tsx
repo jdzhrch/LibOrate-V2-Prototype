@@ -92,7 +92,7 @@ export function LetterToSelfPanel() {
           <header className="slideout-header">
             <div>
               <h3>Write a letter</h3>
-              <p className="supporting-copy">Choose a reflection frame</p>
+              <p className="supporting-copy">Select a prompt template to guide your reflection note</p>
             </div>
             <button
               type="button"
@@ -187,7 +187,7 @@ export function LetterToSelfPanel() {
                 className="letter-input"
                 id="letter-to-self"
                 onChange={(event) => setBody(event.target.value)}
-                placeholder="Write to yourself the way you would want support to sound before, during, or after the meeting."
+                placeholder="Write notes to support and ground yourself before, during, or after the meeting."
                 rows={8}
                 value={body}
               />

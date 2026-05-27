@@ -1822,7 +1822,7 @@ a {
 
 .letter-history-header .supporting-copy {
   margin-top: 6px;
-  max-width: 42ch;
+  max-width: none;
 }
 
 .letter-form-card {

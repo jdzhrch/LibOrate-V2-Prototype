@@ -18,7 +18,7 @@ describe('App workspace sync', () => {
     )
 
     await user.click(screen.getByRole('link', { name: 'Web' }))
-    await user.click(within(screen.getByRole('tablist', { name: 'Web pages' })).getByRole('tab', { name: 'Emotions setting' }))
+    await user.click(within(screen.getByRole('tablist', { name: 'Web pages' })).getByRole('tab', { name: 'Emotions' }))
     expect(screen.queryByRole('tab', { name: 'Phrases' })).not.toBeInTheDocument()
     expect(screen.queryByText('Choose what fits this moment.')).not.toBeInTheDocument()
     expect(screen.queryByText('Custom common humanity')).not.toBeInTheDocument()

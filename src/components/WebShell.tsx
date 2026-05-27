@@ -25,7 +25,7 @@ export function WebShell({ className }: WebShellProps) {
             role="tab"
             type="button"
           >
-            Insights
+            Patterns
           </button>
           <button
             aria-selected={page === 'history'}

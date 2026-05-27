@@ -115,6 +115,9 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
                 <label className="field-label" htmlFor={`${emotion.key}-humanity`}>
                   Common humanity
                 </label>
+                <p className="field-help-text">
+                  💡 Self-compassion starts by recognizing that struggle and difficulty are part of the shared human experience. This is what you see first.
+                </p>
                 <textarea
                   className="letter-input phrase-humanity-textarea"
                   id={`${emotion.key}-humanity`}
@@ -129,6 +132,9 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
                 <label className="field-label" htmlFor={`${emotion.key}-phrases`}>
                   Self-kindness
                 </label>
+                <p className="field-help-text">
+                  💡 Write gentle, non-judgmental words that you would offer to a close friend when they feel this way. Put each phrase on a new line.
+                </p>
                 <textarea
                   className="letter-input phrase-textarea"
                   id={`${emotion.key}-phrases`}
@@ -250,6 +256,9 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
                 <label className="field-label" htmlFor="new-common-humanity">
                   Common humanity
                 </label>
+                <p className="field-help-text">
+                  💡 Self-compassion starts by recognizing that struggle and difficulty are part of the shared human experience. This is what you see first.
+                </p>
                 <textarea
                   className="letter-input phrase-humanity-textarea"
                   id="new-common-humanity"
@@ -264,6 +273,9 @@ function AddEmotionCard({ onAdd }: AddEmotionCardProps) {
                 <label className="field-label" htmlFor="new-kindness-phrases">
                   Self-kindness
                 </label>
+                <p className="field-help-text">
+                  💡 Write gentle, non-judgmental words that you would offer to a close friend when they feel this way. Put each phrase on a new line.
+                </p>
                 <textarea
                   className="letter-input phrase-textarea"
                   id="new-kindness-phrases"
@@ -309,8 +321,7 @@ export function PhraseLibraryPanel() {
           <p className="section-label">In-meeting support</p>
           <h2>Emotions</h2>
           <p className="supporting-copy">
-            Shape the support people see after each emotional check-in. Every emotion starts from
-            the same common humanity note, and each card can be rewritten.
+            Customize the self-compassion phrases you see during check-ins. Rewrite the support text for any emotion below.
           </p>
         </div>
       </header>

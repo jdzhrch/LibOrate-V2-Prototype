@@ -1125,11 +1125,10 @@ a {
 .timeline-plot {
   position: relative;
   min-height: 220px;
-  border-radius: 22px;
-  padding: 10px 12px 14px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(248, 251, 255, 0.96) 100%);
-  border: 1px solid rgba(217, 225, 237, 0.92);
+  border-radius: 0;
+  padding: 10px 0 14px;
+  background: transparent;
+  border: none;
   overflow: hidden;
 }
 
@@ -1267,19 +1266,29 @@ a {
 
 .insight-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 .insight-card {
-  border: 1px solid var(--line);
-  border-radius: 20px;
+  border: 1px solid rgba(217, 225, 237, 0.96) !important;
+  border-radius: 22px !important;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 254, 0.96) 100%);
-  padding: 16px;
-  display: grid;
-  gap: 8px;
-  box-shadow: 0 12px 26px rgba(81, 95, 127, 0.07);
+    radial-gradient(circle at top right, rgba(160, 183, 220, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 250, 254, 0.98) 100%) !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  box-shadow: 0 10px 24px rgba(84, 96, 128, 0.05) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease !important;
+  cursor: default;
+}
+
+.insight-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 32px rgba(84, 96, 128, 0.09) !important;
+  border-color: rgba(45, 114, 255, 0.35) !important;
 }
 
 .insight-label {
@@ -2990,4 +2999,136 @@ a {
   color: var(--text);
   margin-top: 32px;
   margin-bottom: 16px;
+}
+
+/* 6. Onboarding & Welcome Guide Banner */
+.welcome-guide-card {
+  border: 1px solid rgba(214, 222, 234, 0.95);
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(45, 114, 255, 0.05), transparent 45%),
+              linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 250, 254, 0.98) 100%);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 16px 36px rgba(84, 96, 128, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.welcome-guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-guide-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.welcome-guide-title h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--blue-dark);
+  margin: 0;
+}
+
+.welcome-guide-icon {
+  font-size: 1.25rem;
+}
+
+.close-guide-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(109, 120, 144, 0.06);
+  border: none;
+  font-size: 1.15rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.close-guide-btn:hover {
+  background: rgba(244, 63, 94, 0.08);
+  color: #e11d48;
+}
+
+.welcome-guide-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.welcome-guide-intro {
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.welcome-guide-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  margin-top: 4px;
+}
+
+.guide-step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(240, 244, 252, 0.4);
+  border: 1px solid rgba(219, 226, 237, 0.6);
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.guide-step strong {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.guide-step p {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.welcome-guide-footer {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(219, 226, 237, 0.5);
+}
+
+.privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.16);
+  color: #059669;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 99px;
+}
+
+/* Onboarding Concept Helper Tooltips inside Modals */
+.field-help-text {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-top: 4px;
+  background: rgba(45, 114, 255, 0.03);
+  border-left: 2px solid var(--blue);
+  padding: 6px 12px;
+  border-radius: 4px 8px 8px 4px;
 }

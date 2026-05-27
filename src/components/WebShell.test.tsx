@@ -74,20 +74,17 @@ describe('WebShell', () => {
 
     const webTabs = within(screen.getByRole('tablist', { name: 'Web pages' }))
 
-    expect(webTabs.getByRole('tab', { name: 'Insights' })).toBeInTheDocument()
+    expect(webTabs.getByRole('tab', { name: 'Patterns' })).toBeInTheDocument()
+    expect(webTabs.getByRole('tab', { name: 'History' })).toBeInTheDocument()
     expect(webTabs.getByRole('tab', { name: 'Letters' })).toBeInTheDocument()
     expect(webTabs.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
-    expect(screen.queryByRole('tab', { name: 'Patterns' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('tab', { name: 'Emotions setting' })).not.toBeInTheDocument()
     expect(screen.queryByRole('tab', { name: 'Check-ins' })).not.toBeInTheDocument()
-    const insightTabs = within(screen.getByRole('tablist', { name: 'Insight views' }))
 
-    expect(screen.getByRole('group', { name: 'Date filters' }).closest('.panel-header')).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Reset Demo Data' })).not.toBeInTheDocument()
-    expect(screen.getByRole('tablist', { name: 'Insight views' }).closest('.analytics-card')).not.toBeNull()
-    expect(screen.getByRole('heading', { name: 'Insights' })).toBeInTheDocument()
-    expect(insightTabs.getByRole('tab', { name: 'Meetings' })).toBeInTheDocument()
-    expect(insightTabs.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
+    // 1. Test Patterns page (Analytics & Insights)
+    expect(screen.getByRole('heading', { name: 'Patterns' })).toBeInTheDocument()
+    const patternTabs = within(screen.getByRole('tablist', { name: 'Pattern views' }))
+    expect(patternTabs.getByRole('tab', { name: 'Meetings' })).toBeInTheDocument()
+    expect(patternTabs.getByRole('tab', { name: 'Emotions' })).toBeInTheDocument()
     expect(screen.getByText('Meeting pressure map')).toBeInTheDocument()
     expect(container.querySelectorAll('.emotion-bar-segment').length).toBeGreaterThan(0)
     expect(screen.getByText('Support timeline')).toBeInTheDocument()
@@ -96,24 +93,35 @@ describe('WebShell', () => {
     expect(screen.getByText('What stands out')).toBeInTheDocument()
     expect(screen.getByText('Highest-support meeting')).toBeInTheDocument()
     expect(screen.queryByText('Most frequent emotion')).not.toBeInTheDocument()
-    expect(screen.queryByText('11:32 AM')).not.toBeInTheDocument()
-    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Client Kickoff').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Anxiety').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Guilt & Frustration').length).toBeGreaterThan(0)
-    expect(screen.queryByText('with history')).not.toBeInTheDocument()
-    expect(screen.getByText('Before the review')).not.toBeVisible()
 
-    fireEvent.click(screen.getByRole('button', { name: '7 days' }))
+    // Meetings list should NOT be here (it's on History page)
+    expect(screen.queryByRole('button', { name: 'Expand Tuesday Design Review' })).not.toBeInTheDocument()
 
-    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
-    expect(screen.queryByRole('heading', { name: 'Client Kickoff' })).not.toBeInTheDocument()
-
-    fireEvent.click(insightTabs.getByRole('tab', { name: 'Emotions' }))
-
+    // Toggle view mode on Patterns page to see Emotion pattern map
+    fireEvent.click(patternTabs.getByRole('tab', { name: 'Emotions' }))
     expect(screen.getByText('Emotion pattern map')).toBeInTheDocument()
     expect(screen.getByText('Most repeated state')).toBeInTheDocument()
     expect(screen.queryByText('Highest-support meeting')).not.toBeInTheDocument()
+
+    // 2. Switch to History page (Timeline logs)
+    fireEvent.click(webTabs.getByRole('tab', { name: 'History' }))
+    expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Expand Tuesday Design Review' })).toBeInTheDocument()
+    expect(screen.queryByText('11:32 AM')).not.toBeInTheDocument()
+    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Client Kickoff').length).toBeGreaterThan(0)
+    expect(screen.queryByText('with history')).not.toBeInTheDocument()
+    expect(screen.getByText('Before the review')).not.toBeVisible()
+
+    // Test date filters on History page
+    fireEvent.click(screen.getByRole('button', { name: '7 days' }))
+    expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)
+    expect(screen.queryByRole('heading', { name: 'Client Kickoff' })).not.toBeInTheDocument()
+
+    // Toggle view mode on History page to Emotions grouping
+    const historyTabs = within(screen.getByRole('tablist', { name: 'History views' }))
+    fireEvent.click(historyTabs.getByRole('tab', { name: 'Emotions' }))
+    expect(screen.getByRole('button', { name: 'Expand Anxiety' })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Practice Circle' })).not.toBeInTheDocument()
     expect(screen.getAllByText('Anxiety').length).toBeGreaterThan(1)
     expect(screen.getAllByText('Tuesday Design Review').length).toBeGreaterThan(0)

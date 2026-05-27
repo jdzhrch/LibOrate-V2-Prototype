@@ -41,8 +41,9 @@ export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps)
           <p className="section-label">
             {activeSection === 'patterns' ? 'Analytics & Insights' : 'Check-ins Timeline'}
           </p>
-          <h2>{activeSection === 'patterns' ? 'Insights' : 'History'}</h2>
+          <h2>{activeSection === 'patterns' ? 'Patterns' : 'History'}</h2>
         </div>
+      <div className="history-toolbar">
         <div className="filter-row" role="group" aria-label="Date filters">
           <button
             className={filterMode === 'last-7-days' ? 'filter-pill filter-pill-active' : 'filter-pill'}
@@ -99,6 +100,30 @@ export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps)
             </div>
           ) : null}
         </div>
+
+        {activeSection === 'history' ? (
+          <div className="segmented-control" role="tablist" aria-label="History views">
+            <button
+              aria-selected={viewMode === 'meeting'}
+              className={viewMode === 'meeting' ? 'segment-button segment-button-active' : 'segment-button'}
+              onClick={() => setViewMode('meeting')}
+              role="tab"
+              type="button"
+            >
+              Meetings
+            </button>
+            <button
+              aria-selected={viewMode === 'emotion'}
+              className={viewMode === 'emotion' ? 'segment-button segment-button-active' : 'segment-button'}
+              onClick={() => setViewMode('emotion')}
+              role="tab"
+              type="button"
+            >
+              Emotions
+            </button>
+          </div>
+        ) : null}
+      </div>
       </div>
 
       {activeSection === 'patterns' ? (

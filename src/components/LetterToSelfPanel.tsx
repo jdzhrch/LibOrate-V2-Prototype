@@ -40,8 +40,7 @@ export function LetterToSelfPanel() {
           <p className="section-label">Self-reflection</p>
           <h2>Letters</h2>
           <p className="supporting-copy">
-            Write something steady, kind, and usable for the version of you who is carrying the
-            next meeting.
+            Write gentle notes to support yourself before or after difficult meetings.
           </p>
         </div>
         <div className="header-actions">

@@ -63,6 +63,7 @@ function PhraseEditorCard({ emotion, canHide }: PhraseEditorCardProps) {
       onClick={() => setIsOpen(true)}
     >
       <h3 className="emotion-chip-title">{emotion.chipLabel}</h3>
+      {!isOpen && <span className="chip-edit-icon" aria-hidden="true">✎</span>}
       
       {/* Offscreen buttons for automated test suite compatibility */}
       <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} onClick={(e) => e.stopPropagation()}>

@@ -34,13 +34,6 @@ export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps)
     setFilterMode(nextMode)
   }
 
-  const handleResetData = () => {
-    if (window.confirm('Are you sure you want to reset all prototype data to default seed data?')) {
-      window.localStorage.removeItem('liborate-prototype-state-v4')
-      window.location.reload()
-    }
-  }
-
   return (
     <section className="web-panel-block patterns-panel" data-view-mode={viewMode}>
       <div className="panel-header">
@@ -48,19 +41,8 @@ export function MeetingHistoryPanel({ activeSection }: MeetingHistoryPanelProps)
           <p className="section-label">
             {activeSection === 'patterns' ? 'Analytics & Insights' : 'Check-ins Timeline'}
           </p>
-          <h2>{activeSection === 'patterns' ? 'Patterns' : 'History'}</h2>
+          <h2>{activeSection === 'patterns' ? 'Insights' : 'History'}</h2>
         </div>
-        <button
-          className="secondary-pill secondary-pill-quiet reset-data-btn"
-          onClick={handleResetData}
-          type="button"
-        >
-          Reset Demo Data
-        </button>
-      </div>
-
-      <div className="history-toolbar">
-
         <div className="filter-row" role="group" aria-label="Date filters">
           <button
             className={filterMode === 'last-7-days' ? 'filter-pill filter-pill-active' : 'filter-pill'}

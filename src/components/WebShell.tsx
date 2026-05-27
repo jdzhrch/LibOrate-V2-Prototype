@@ -25,7 +25,7 @@ export function WebShell({ className }: WebShellProps) {
             role="tab"
             type="button"
           >
-            Patterns
+            Insights
           </button>
           <button
             aria-selected={page === 'history'}
@@ -52,7 +52,7 @@ export function WebShell({ className }: WebShellProps) {
             role="tab"
             type="button"
           >
-            Emotions setting
+            Emotions
           </button>
         </nav>
       </div>

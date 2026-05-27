@@ -27,6 +27,13 @@ function App() {
   const location = useLocation()
   const isZoomRoute = location.pathname === '/zoom' || location.pathname === '/'
 
+  const handleResetData = () => {
+    if (window.confirm('Are you sure you want to reset all prototype data to default seed data?')) {
+      window.localStorage.removeItem('liborate-prototype-state-v4')
+      window.location.reload()
+    }
+  }
+
   return (
     <div className="page-shell">
       <header className="route-header">
@@ -50,25 +57,34 @@ function App() {
             </NavLink>
           </nav>
         </div>
-        {isZoomRoute ? (
-          <div className="page-toolbar">
-            <label className="toolbar-label" htmlFor="preview-meeting">
-              Preview meeting
-            </label>
-            <select
-              className="toolbar-select"
-              id="preview-meeting"
-              onChange={(event) => setSelectedMeetingId(event.target.value)}
-              value={selectedMeetingId}
-            >
-              {meetings.map((meeting) => (
-                <option key={meeting.id} value={meeting.id}>
-                  {meeting.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : null}
+        <div className="prototype-toolbar">
+          <button
+            className="secondary-pill secondary-pill-quiet reset-data-btn"
+            onClick={handleResetData}
+            type="button"
+          >
+            Reset Demo Data
+          </button>
+          {isZoomRoute ? (
+            <div className="page-toolbar">
+              <label className="toolbar-label" htmlFor="preview-meeting">
+                Preview meeting
+              </label>
+              <select
+                className="toolbar-select"
+                id="preview-meeting"
+                onChange={(event) => setSelectedMeetingId(event.target.value)}
+                value={selectedMeetingId}
+              >
+                {meetings.map((meeting) => (
+                  <option key={meeting.id} value={meeting.id}>
+                    {meeting.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+        </div>
       </header>
 
       <Routes>

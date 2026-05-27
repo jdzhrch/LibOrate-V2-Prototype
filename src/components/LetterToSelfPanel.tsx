@@ -47,10 +47,10 @@ export function LetterToSelfPanel() {
         <div className="header-actions">
           <button
             type="button"
-            className="primary-pill write-letter-trigger-btn"
+            className="secondary-pill secondary-pill-quiet write-letter-trigger-btn"
             onClick={() => setIsWriting(true)}
           >
-            + Write a letter
+            Write a letter
           </button>
         </div>
       </header>
@@ -61,7 +61,7 @@ export function LetterToSelfPanel() {
         </div>
 
         {letters.length === 0 ? (
-          <div className="empty-record">No saved letters yet. Click "+ Write a letter" to begin.</div>
+          <div className="empty-record">No saved letters yet. Click "Write a letter" to begin.</div>
         ) : (
           <div className="letter-list">
             {letters.map((letter) => {

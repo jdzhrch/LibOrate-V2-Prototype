@@ -18,7 +18,7 @@ describe('App workspace sync', () => {
     )
 
     await user.click(screen.getByRole('link', { name: 'Web' }))
-    await user.click(screen.getByRole('tab', { name: 'Emotions setting' }))
+    await user.click(within(screen.getByRole('tablist', { name: 'Web pages' })).getByRole('tab', { name: 'Emotions' }))
     expect(screen.queryByRole('tab', { name: 'Phrases' })).not.toBeInTheDocument()
     expect(screen.queryByText('Choose what fits this moment.')).not.toBeInTheDocument()
     expect(screen.queryByText('Custom common humanity')).not.toBeInTheDocument()
@@ -143,5 +143,21 @@ describe('App workspace sync', () => {
     )
 
     expect(container.querySelector('.single-surface-wide .web-shell-standalone')).not.toBeNull()
+  })
+
+  it('keeps demo reset controls outside the web product surface', () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/web']}>
+        <PrototypeProvider>
+          <App />
+        </PrototypeProvider>
+      </MemoryRouter>,
+    )
+
+    const resetButton = screen.getByRole('button', { name: 'Reset Demo Data' })
+
+    expect(resetButton.closest('.route-header')).not.toBeNull()
+    expect(resetButton.closest('.web-shell')).toBeNull()
+    expect(container.querySelector('.web-shell .reset-data-btn')).toBeNull()
   })
 })

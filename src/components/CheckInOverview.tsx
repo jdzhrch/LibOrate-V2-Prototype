@@ -104,7 +104,7 @@ export function CheckInOverview({
           <div className="analytics-header">
             <h3>{viewMode === 'meeting' ? 'Meeting pressure map' : 'Emotion pattern map'}</h3>
             <div className="analytics-header-actions">
-              <div className="segmented-control" role="tablist" aria-label="Pattern views">
+              <div className="segmented-control analytics-view-tabs" role="tablist" aria-label="Insight views">
                 <button
                   aria-selected={viewMode === 'meeting'}
                   className={viewMode === 'meeting' ? 'segment-button segment-button-active' : 'segment-button'}

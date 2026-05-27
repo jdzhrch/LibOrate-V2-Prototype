@@ -114,6 +114,14 @@ a {
   flex-wrap: wrap;
 }
 
+.prototype-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .page-toolbar {
   display: grid;
   gap: 8px;
@@ -910,6 +918,30 @@ a {
   white-space: nowrap;
 }
 
+.analytics-view-tabs {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  gap: 4px;
+  padding: 0;
+}
+
+.analytics-view-tabs .segment-button {
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  padding: 8px 14px;
+  transform: none;
+}
+
+.analytics-view-tabs .segment-button-active {
+  background: rgba(45, 114, 255, 0.08);
+  border: 0;
+  box-shadow: none;
+  color: var(--blue);
+  transform: none;
+}
+
 .web-panel-block,
 .letter-panel {
   display: grid;
@@ -930,6 +962,11 @@ a {
 
 .panel-header h2 {
   letter-spacing: -0.03em;
+}
+
+.analytics-flat-section {
+  display: grid;
+  gap: 24px;
 }
 
 .meeting-group-list {
@@ -1283,6 +1320,7 @@ a {
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .filter-pill {
@@ -1911,32 +1949,56 @@ a {
   gap: 16px;
 }
 
+.letter-list-container {
+  border: 1px solid rgba(217, 225, 237, 0.96);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(248, 251, 255, 0.9) 100%);
+  overflow: hidden;
+}
+
+.letter-list-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(219, 226, 237, 0.72);
+}
+
+.letter-list-header h3 {
+  font-size: 1.08rem;
+  letter-spacing: -0.02em;
+}
+
+.letter-list-container .empty-record {
+  margin: 16px 20px 20px;
+}
+
 .letter-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-  margin-top: 14px;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 0;
 }
 
 .letter-entry-card {
-  border: 1px solid rgba(217, 225, 237, 0.96) !important;
-  border-radius: 22px !important;
-  background:
-    radial-gradient(circle at top right, rgba(160, 183, 220, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 250, 254, 0.98) 100%) !important;
-  padding: 20px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 14px !important;
-  box-shadow: 0 10px 24px rgba(84, 96, 128, 0.05) !important;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(219, 226, 237, 0.78) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 18px 20px !important;
+  display: grid !important;
+  grid-template-columns: minmax(210px, 0.85fr) minmax(0, 1.25fr) minmax(220px, 0.7fr) !important;
+  gap: 22px !important;
+  align-items: center !important;
+  box-shadow: none !important;
+  transition: background-color 150ms ease !important;
   cursor: default;
 }
 
+.letter-entry-card:last-child {
+  border-bottom: 0 !important;
+}
+
 .letter-entry-card:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 16px 32px rgba(84, 96, 128, 0.09) !important;
-  border-color: rgba(45, 114, 255, 0.35) !important;
+  background: rgba(245, 248, 253, 0.42) !important;
 }
 
 .letter-entry-card .record-meta {
@@ -1966,30 +2028,33 @@ a {
   color: var(--text);
   opacity: 0.9;
   font-size: 0.94rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   margin: 0;
-  flex-grow: 1;
 }
 
 .letter-badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: auto;
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  justify-content: flex-end;
+  margin-top: 0;
+  text-align: right;
 }
 
 .letter-entry-card .meeting-summary-pill {
-  background: rgba(109, 120, 144, 0.06) !important;
-  border: 1px solid rgba(109, 120, 144, 0.12) !important;
+  background: transparent !important;
+  border: 0 !important;
   color: var(--muted) !important;
   font-size: 0.78rem !important;
-  padding: 6px 12px !important;
-  border-radius: 999px !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
   white-space: nowrap;
+}
+
+.letter-entry-card .meeting-summary-pill + .meeting-summary-pill::before {
+  content: '/';
+  margin-right: 8px;
+  color: rgba(109, 120, 144, 0.5);
 }
 
 .break-panel .panel-header .supporting-copy {
@@ -2050,7 +2115,42 @@ a {
 }
 
 .phrase-editor-card-archived {
-  background: linear-gradient(180deg, #f8f9fc 0%, #eff3f9 100%);
+  border: 0 !important;
+  border-bottom: 1px solid rgba(219, 226, 237, 0.78) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(240px, 1fr) auto !important;
+  gap: 18px !important;
+  align-items: center !important;
+  padding: 14px 0 !important;
+}
+
+.phrase-editor-card-archived:last-child {
+  border-bottom: 0 !important;
+}
+
+.phrase-editor-card-archived .phrase-card-topline {
+  display: contents;
+}
+
+.phrase-editor-card-archived .break-preview-chip {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  padding: 0;
+  justify-self: start;
+}
+
+.phrase-editor-card-archived .supporting-copy {
+  min-width: 0;
+}
+
+.phrase-editor-card-archived .secondary-pill {
+  justify-self: end;
 }
 
 .phrase-card-topline {
@@ -2199,6 +2299,10 @@ a {
     align-items: flex-start;
   }
 
+  .filter-row {
+    justify-content: flex-start;
+  }
+
   .segmented-control,
   .break-metric-row,
   .break-chip-row {
@@ -2223,10 +2327,6 @@ a {
 }
 
 @container (min-width: 980px) {
-  .history-visual-grid {
-    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-  }
-
   .insight-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2246,6 +2346,11 @@ a {
   .meeting-group-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .prototype-toolbar {
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .history-visual-grid,
@@ -2287,6 +2392,19 @@ a {
   .letter-form-grid,
   .phrase-editor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .letter-entry-card,
+  .phrase-editor-card-archived {
+    grid-template-columns: 1fr !important;
+  }
+
+  .letter-badges,
+  .phrase-editor-card-archived .secondary-pill {
+    justify-content: flex-start;
+    justify-items: start;
+    justify-self: start;
+    text-align: left;
   }
 
   .break-chip-row {
